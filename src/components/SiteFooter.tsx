@@ -1,0 +1,51 @@
+import Link from "next/link";
+import { SEASON_LABEL } from "@/lib/season";
+
+export function SiteFooter() {
+  return (
+    <footer id="contacto" className="site-footer">
+      <div className="shell">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <p className="footer-brand-name">
+              <span className="brand-mark" aria-hidden="true" />
+              <span>La Serena</span>
+            </p>
+            <p className="footer-copy">
+              Departamentos temporarios para la temporada de verano.
+            </p>
+          </div>
+
+          <div className="footer-nav">
+            <p className="footer-label">Navegación</p>
+            <ul className="footer-links">
+              <li>
+                <Link href="/#catalogo">Catálogo</Link>
+              </li>
+              <li>
+                <Link href="/#temporada">Temporada</Link>
+              </li>
+              <li>
+                <Link href="/#contacto">Contacto</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className="footer-contact">
+            <p className="footer-label">Contacto</p>
+            <ul className="footer-links">
+              <li>La Serena, Chile</li>
+              <li>Temporada {SEASON_LABEL}</li>
+              <li>Atención por WhatsApp</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <span>La Serena, Chile</span>
+          <span>Temporada {SEASON_LABEL}</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
