@@ -5,5 +5,6 @@ export interface Apartment {
   pricePerNight: number;
   capacity: number;
   features: string[];
+  images: string[];
   isActive: boolean;
 }

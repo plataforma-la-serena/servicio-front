@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AvailabilityCalendar } from "@/components/AvailabilityCalendar";
 import { ReserveButton } from "@/components/ReserveButton";
 import { getApartmentById, getApartments } from "@/lib/catalog";
 import { formatPrice } from "@/lib/format";
@@ -106,6 +107,8 @@ export default async function ApartmentPage({ params }: ApartmentPageProps) {
         <Link href="/" className="back-link">
           Volver al catálogo
         </Link>
+
+        <AvailabilityCalendar apartmentId={apartment.id} />
 
         {isSample && (
           <p className="sample-note">

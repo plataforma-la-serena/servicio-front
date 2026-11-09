@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { GridLines } from "@/components/GridLines";
-import { SeasonBand } from "@/components/SeasonBand";
-import { SiteFooter } from "@/components/SiteFooter";
-import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -33,12 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Saltar al contenido
         </a>
         <GridLines />
-        <div className="site">
-          <SiteHeader />
-          <SeasonBand />
-          <main id="contenido">{children}</main>
-          <SiteFooter />
-        </div>
+        <div className="site">{children}</div>
       </body>
     </html>
   );

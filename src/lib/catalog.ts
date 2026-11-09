@@ -7,10 +7,11 @@ interface ApiApartment {
   id: string;
   title: string;
   description: string;
-  price_per_night: number;
+  pricePerNight: number;
   capacity: number;
-  features: string[];
-  is_active: boolean;
+  features?: string[];
+  images?: string[];
+  isActive: boolean;
 }
 
 export interface CatalogResult {
@@ -23,10 +24,11 @@ function toApartment(item: ApiApartment): Apartment {
     id: item.id,
     title: item.title,
     description: item.description,
-    pricePerNight: item.price_per_night,
+    pricePerNight: item.pricePerNight,
     capacity: item.capacity,
     features: item.features ?? [],
-    isActive: item.is_active,
+    images: item.images ?? [],
+    isActive: item.isActive,
   };
 }
 
@@ -39,16 +41,13 @@ async function fetchApartments(base: string): Promise<ApiApartment[]> {
     throw new Error(`api-central respondió ${response.status}`);
   }
 
-  const payload = (await response.json()) as
-    | ApiApartment[]
-    | { data: ApiApartment[] };
-  const items = Array.isArray(payload) ? payload : payload.data;
+  const payload = (await response.json()) as unknown;
 
-  if (!Array.isArray(items)) {
+  if (!Array.isArray(payload)) {
     throw new Error("Respuesta inválida de api-central");
   }
 
-  return items;
+  return payload as ApiApartment[];
 }
 
 export async function getApartments(): Promise<CatalogResult> {

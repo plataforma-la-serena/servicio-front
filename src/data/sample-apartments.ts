@@ -13,6 +13,7 @@ export const sampleApartments: Apartment[] = [
     pricePerNight: 45000,
     capacity: 4,
     features: ["2 dormitorios", "Cocina equipada", "Balcón", "Wi-Fi"],
+    images: [],
     isActive: true,
   },
   {
@@ -23,6 +24,7 @@ export const sampleApartments: Apartment[] = [
     pricePerNight: 52000,
     capacity: 6,
     features: ["3 dormitorios", "Living comedor", "Cocina equipada", "Wi-Fi"],
+    images: [],
     isActive: true,
   },
   {
@@ -33,6 +35,7 @@ export const sampleApartments: Apartment[] = [
     pricePerNight: 38000,
     capacity: 2,
     features: ["1 dormitorio", "Cocina integrada", "Baño completo", "Wi-Fi"],
+    images: [],
     isActive: true,
   },
 ];
