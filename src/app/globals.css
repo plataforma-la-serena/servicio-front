@@ -1,30 +1,30 @@
 /* ─────────────────────────────────────────────────────────
    La Serena — Organic / Mediterráneo editorial
-   Arena, terracota y verde marino. Fraunces + Epilogue.
+   Atardecer, arcilla y azul de sombra. Fraunces + Epilogue.
    ───────────────────────────────────────────────────────── */
 
 :root {
-  /* Organic tokens */
-  --sand: #ede4cf;
-  --sand-rgb: 237, 228, 207;
-  --sand-light: #f4eddc;
-  --sand-light-rgb: 244, 237, 220;
-  --oat: #e8dcc7;
-  --ink: #1f2a26;
-  --ink-rgb: 31, 42, 38;
-  --ink-soft: #33413b;
-  --muted: #5f6b64;
-  --sea: #2e5a5e;
-  --sea-rgb: 46, 90, 94;
-  --sea-deep: #1d3b3e;
-  --sea-deep-rgb: 29, 59, 62;
-  --terracotta: #c66b3d;
-  --terracotta-rgb: 198, 107, 61;
-  --terracotta-deep: #a8542c;
-  --terracotta-deep-rgb: 168, 84, 44;
-  --terracotta-hover: #94471f;
-  --terracotta-hover-rgb: 148, 71, 31;
-  --button-text: #fbf6ea;
+  /* Organic tokens — paleta Atardecer */
+  --sand: #f0dfcf;
+  --sand-rgb: 240, 223, 207;
+  --sand-light: #f9eee3;
+  --sand-light-rgb: 249, 238, 227;
+  --oat: #e7cfbd;
+  --ink: #2e2320;
+  --ink-rgb: 46, 35, 32;
+  --ink-soft: #443531;
+  --muted: #6e5b54;
+  --sea: #3d5a6b;
+  --sea-rgb: 61, 90, 107;
+  --sea-deep: #2b404d;
+  --sea-deep-rgb: 43, 64, 77;
+  --terracotta: #c96a4a;
+  --terracotta-rgb: 201, 106, 74;
+  --terracotta-deep: #a34e33;
+  --terracotta-deep-rgb: 163, 78, 51;
+  --terracotta-hover: #8c422b;
+  --terracotta-hover-rgb: 140, 66, 43;
+  --button-text: #fff7ef;
 
   --line: rgba(var(--ink-rgb), 0.14);
   --line-strong: rgba(var(--ink-rgb), 0.28);
@@ -47,35 +47,6 @@
   --black: var(--ink);
   --accent: var(--terracotta);
   --accent-hover: var(--terracotta-deep);
-}
-
-/* ── Paleta del sitio público ─────────────────────────────
-   Atardecer: durazno, arcilla y azul de sombra.
-   El panel de administración conserva la paleta Arena.        */
-
-.public-theme {
-  --sand: #f0dfcf;
-  --sand-rgb: 240, 223, 207;
-  --sand-light: #f9eee3;
-  --sand-light-rgb: 249, 238, 227;
-  --oat: #e7cfbd;
-  --ink: #2e2320;
-  --ink-rgb: 46, 35, 32;
-  --ink-soft: #443531;
-  --muted: #6e5b54;
-  --sea: #3d5a6b;
-  --sea-rgb: 61, 90, 107;
-  --sea-deep: #2b404d;
-  --sea-deep-rgb: 43, 64, 77;
-  --terracotta: #c96a4a;
-  --terracotta-rgb: 201, 106, 74;
-  --terracotta-deep: #a34e33;
-  --terracotta-deep-rgb: 163, 78, 51;
-  --terracotta-hover: #8c422b;
-  --terracotta-hover-rgb: 140, 66, 43;
-  --button-text: #fff7ef;
-  --line: rgba(var(--ink-rgb), 0.14);
-  --line-strong: rgba(var(--ink-rgb), 0.28);
 }
 
 * {
