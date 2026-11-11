@@ -11,8 +11,9 @@ export function SiteHeader() {
         </Link>
 
         <nav className="site-nav" aria-label="Navegación principal">
-          <Link href="/#catalogo">Catálogo</Link>
-          <Link href="/#temporada">Temporada</Link>
+          <Link href="/#catalogo">Departamentos</Link>
+          <Link href="/#la-serena">La Serena</Link>
+          <Link href="/#como-reservar">Cómo reservar</Link>
           <Link href="/#contacto">Contacto</Link>
         </nav>
 

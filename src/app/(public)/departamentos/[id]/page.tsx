@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ApartmentGallery } from "@/components/ApartmentGallery";
 import { AvailabilityCalendar } from "@/components/AvailabilityCalendar";
 import { ReserveButton } from "@/components/ReserveButton";
 import { getApartmentById, getApartments } from "@/lib/catalog";
@@ -46,7 +47,7 @@ export default async function ApartmentPage({ params }: ApartmentPageProps) {
     <section className="detail" aria-labelledby="detail-title">
       <div className="shell">
         <nav className="breadcrumb" aria-label="Migas de pan">
-          <Link href="/">Catálogo</Link>
+          <Link href="/">Departamentos</Link>
           <span aria-hidden="true">/</span>
           <span>{apartment.title}</span>
         </nav>
@@ -104,11 +105,13 @@ export default async function ApartmentPage({ params }: ApartmentPageProps) {
           </aside>
         </div>
 
-        <Link href="/" className="back-link">
-          Volver al catálogo
-        </Link>
+        <ApartmentGallery />
 
         <AvailabilityCalendar apartmentId={apartment.id} />
+
+        <Link href="/" className="back-link">
+          Volver a los departamentos
+        </Link>
 
         {isSample && (
           <p className="sample-note">

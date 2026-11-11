@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { SEASON_LABEL } from "@/lib/season";
 import { ReserveButton } from "./ReserveButton";
 
@@ -10,44 +11,51 @@ export function Hero({ apartmentCount }: HeroProps) {
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="shell">
-        <div className="hero-grid">
-          <div className="hero-copy">
-            <p className="eyebrow">Temporada {SEASON_LABEL}</p>
-            <h1 id="hero-title" className="hero-title">
-              <span>Departamentos</span>
-              <span>temporarios</span>
-              <span>en La Serena.</span>
-            </h1>
-            <p className="hero-lede">
-              Alquiler de departamentos amoblados para la temporada de verano.
-              Consultas y reservas por WhatsApp.
-            </p>
-            <ReserveButton label="Reservar por WhatsApp" />
-          </div>
+      <div className="hero-media" aria-hidden="true">
+        <Image
+          src="/images/hero-playa.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+        />
+      </div>
 
-          <aside className="hero-index" aria-label="Resumen de la temporada">
-            <div className="hero-index-count">
-              <span className="metric-label">Departamentos</span>
-              <span className="metric-value metric-value-xl">{count}</span>
-            </div>
+      <div className="shell hero-inner">
+        <p className="eyebrow hero-eyebrow">
+          Temporada {SEASON_LABEL} · La Serena, Chile
+        </p>
+        <h1 id="hero-title" className="hero-title">
+          Verano
+          <br />
+          <em>en La Serena.</em>
+        </h1>
+        <p className="hero-lede">
+          Departamentos amoblados para la temporada de verano. Consultas y
+          reservas por WhatsApp.
+        </p>
 
-            <dl className="fact-list">
-              <div className="fact">
-                <dt className="metric-label">Temporada</dt>
-                <dd className="fact-value">{SEASON_LABEL}</dd>
-              </div>
-              <div className="fact">
-                <dt className="metric-label">Ubicación</dt>
-                <dd className="fact-value">La Serena, Chile</dd>
-              </div>
-              <div className="fact">
-                <dt className="metric-label">Atención</dt>
-                <dd className="fact-value">WhatsApp</dd>
-              </div>
-            </dl>
-          </aside>
+        <div className="hero-actions">
+          <ReserveButton label="Reservar por WhatsApp" />
+          <a className="hero-link" href="#catalogo">
+            Ver departamentos
+          </a>
         </div>
+
+        <dl className="hero-facts">
+          <div className="hero-fact">
+            <dt>Departamentos</dt>
+            <dd>{count}</dd>
+          </div>
+          <div className="hero-fact">
+            <dt>Temporada</dt>
+            <dd>{SEASON_LABEL}</dd>
+          </div>
+          <div className="hero-fact">
+            <dt>Atención</dt>
+            <dd>WhatsApp</dd>
+          </div>
+        </dl>
       </div>
     </section>
   );

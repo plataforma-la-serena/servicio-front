@@ -1,5 +1,6 @@
 import type { Apartment } from "@/types/apartment";
-import { ApartmentRow } from "./ApartmentRow";
+import { ApartmentCard } from "./ApartmentCard";
+import { Reveal } from "./Reveal";
 
 interface CatalogProps {
   apartments: Apartment[];
@@ -12,21 +13,31 @@ export function Catalog({ apartments, isSample }: CatalogProps) {
   return (
     <section id="catalogo" className="catalog" aria-labelledby="catalog-title">
       <div className="shell">
-        <div className="section-head">
-          <h2 id="catalog-title" className="section-title">
-            Catálogo
-          </h2>
-          <span className="section-meta">{count} departamentos</span>
-        </div>
+        <Reveal>
+          <div className="section-head">
+            <div className="section-head-copy">
+              <h2 id="catalog-title" className="section-title">
+                Departamentos
+              </h2>
+              <p className="section-lede">
+                Elegí el departamento que se ajuste a tu grupo y coordiná la
+                reserva por WhatsApp.
+              </p>
+            </div>
+            <span className="section-meta">{count} departamentos</span>
+          </div>
+        </Reveal>
 
         {apartments.length > 0 ? (
           <div className="catalog-list">
             {apartments.map((apartment, index) => (
-              <ApartmentRow
+              <Reveal
                 key={apartment.id}
-                apartment={apartment}
-                index={index}
-              />
+                className="catalog-item"
+                delay={index * 80}
+              >
+                <ApartmentCard apartment={apartment} index={index} />
+              </Reveal>
             ))}
           </div>
         ) : (

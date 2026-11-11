@@ -19,6 +19,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: siteUrl,
       lastModified: now,
     },
+    {
+      url: `${siteUrl}/creditos`,
+      lastModified: now,
+    },
     ...apartmentEntries,
   ];
 }

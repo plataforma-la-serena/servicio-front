@@ -12,7 +12,8 @@ export function SiteFooter() {
               <span>La Serena</span>
             </p>
             <p className="footer-copy">
-              Departamentos temporarios para la temporada de verano.
+              Departamentos temporarios en La Serena para la temporada de
+              verano.
             </p>
           </div>
 
@@ -20,13 +21,13 @@ export function SiteFooter() {
             <p className="footer-label">Navegación</p>
             <ul className="footer-links">
               <li>
-                <Link href="/#catalogo">Catálogo</Link>
+                <Link href="/#catalogo">Departamentos</Link>
               </li>
               <li>
-                <Link href="/#temporada">Temporada</Link>
+                <Link href="/#la-serena">La Serena</Link>
               </li>
               <li>
-                <Link href="/#contacto">Contacto</Link>
+                <Link href="/#como-reservar">Cómo reservar</Link>
               </li>
             </ul>
           </div>
@@ -37,6 +38,9 @@ export function SiteFooter() {
               <li>La Serena, Chile</li>
               <li>Temporada {SEASON_LABEL}</li>
               <li>Atención por WhatsApp</li>
+              <li>
+                <Link href="/creditos">Créditos de imágenes</Link>
+              </li>
             </ul>
           </div>
         </div>
