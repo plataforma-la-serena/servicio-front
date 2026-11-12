@@ -37,7 +37,7 @@ export function Hero({ apartmentCount }: HeroProps) {
 
         <div className="hero-actions">
           <ReserveButton label="Reservar por WhatsApp" />
-          <a className="hero-link" href="#catalogo">
+          <a className="hero-link" href="/departamentos">
             Ver departamentos
           </a>
         </div>

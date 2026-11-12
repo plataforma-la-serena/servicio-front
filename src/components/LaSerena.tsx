@@ -3,29 +3,35 @@ import Link from "next/link";
 import { LA_SERENA_PLACES } from "@/lib/reference-images";
 import { Reveal } from "./Reveal";
 
-export function LaSerena() {
+interface LaSerenaProps {
+  headless?: boolean;
+}
+
+export function LaSerena({ headless = false }: LaSerenaProps) {
   return (
     <section
       id="la-serena"
       className="la-serena"
-      aria-labelledby="la-serena-title"
+      aria-labelledby={headless ? undefined : "la-serena-title"}
     >
       <div className="shell">
-        <Reveal>
-          <div className="section-head">
-            <div className="section-head-copy">
-              <p className="eyebrow">La ciudad</p>
-              <h2 id="la-serena-title" className="section-title">
-                La Serena
-              </h2>
-              <p className="section-lede">
-                Playa, centro histórico y shopping. La ciudad que rodea la
-                temporada.
-              </p>
+        {!headless && (
+          <Reveal>
+            <div className="section-head">
+              <div className="section-head-copy">
+                <p className="eyebrow">La ciudad</p>
+                <h2 id="la-serena-title" className="section-title">
+                  La Serena
+                </h2>
+                <p className="section-lede">
+                  Playa, centro histórico y shopping. La ciudad que rodea la
+                  temporada.
+                </p>
+              </div>
+              <span className="section-meta">Guía breve</span>
             </div>
-            <span className="section-meta">Guía breve</span>
-          </div>
-        </Reveal>
+          </Reveal>
+        )}
 
         <div className="places">
           {LA_SERENA_PLACES.map((place, index) => (

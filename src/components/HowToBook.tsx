@@ -15,25 +15,27 @@ const STEPS = [
   },
 ];
 
-export function HowToBook() {
+export function HowToBook({ headless = false }: { headless?: boolean }) {
   return (
     <section
       id="como-reservar"
       className="how-to-book"
-      aria-labelledby="how-to-book-title"
+      aria-labelledby={headless ? undefined : "how-to-book-title"}
     >
       <div className="shell">
         <Reveal>
           <div className="how-to-book-panel">
-            <div className="how-to-book-head">
-              <h2 id="how-to-book-title" className="section-title">
-                Cómo reservar
-              </h2>
-              <p className="how-to-book-intro">
-                El proceso se completa por WhatsApp. La disponibilidad se
-                confirma antes de la transferencia.
-              </p>
-            </div>
+            {!headless && (
+              <div className="how-to-book-head">
+                <h2 id="how-to-book-title" className="section-title">
+                  Cómo reservar
+                </h2>
+                <p className="how-to-book-intro">
+                  El proceso se completa por WhatsApp. La disponibilidad se
+                  confirma antes de la transferencia.
+                </p>
+              </div>
+            )}
 
             <div className="steps">
               {STEPS.map((step, index) => (

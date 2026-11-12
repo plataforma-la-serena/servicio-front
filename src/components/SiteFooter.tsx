@@ -20,13 +20,16 @@ export function SiteFooter() {
             <p className="footer-label">Navegación</p>
             <ul className="footer-links">
               <li>
-                <Link href="/#catalogo">Departamentos</Link>
+                <Link href="/departamentos">Departamentos</Link>
               </li>
               <li>
-                <Link href="/#la-serena">La Serena</Link>
+                <Link href="/la-serena">La Serena</Link>
               </li>
               <li>
-                <Link href="/#como-reservar">Cómo reservar</Link>
+                <Link href="/como-reservar">Cómo reservar</Link>
+              </li>
+              <li>
+                <Link href="/contacto">Contacto</Link>
               </li>
             </ul>
           </div>

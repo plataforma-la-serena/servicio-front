@@ -531,9 +531,10 @@ h3 {
 }
 
 .season-band-grid {
-  display: grid;
-  grid-template-columns: 1.1fr repeat(4, 1fr);
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 20px;
   padding-top: 22px;
   padding-bottom: 22px;
   background: var(--sand-light);
@@ -541,33 +542,145 @@ h3 {
   box-shadow: 0 28px 60px rgba(var(--ink-rgb), 0.2);
 }
 
-.season-intro {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-right: 24px;
-}
-
-.season-intro .eyebrow {
+.season-band-grid .eyebrow {
   font-size: 0.6rem;
 }
 
-.season-intro strong {
+.season-dates {
   font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   font-weight: 500;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Páginas internas ──────────────────────────────────── */
+
+.page-intro {
+  padding: 88px 0 24px;
+}
+
+.page-title {
+  margin-top: 18px;
+  font-size: clamp(2.6rem, 5.4vw, 4.4rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.page-lede {
+  max-width: 56ch;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.page-intro + .la-serena,
+.page-intro + .how-to-book {
+  padding-top: 48px;
+}
+
+.page-intro + .la-serena .places {
+  margin-top: 0;
+}
+
+.catalog.page-section {
+  padding-top: 32px;
+}
+
+.catalog-more {
+  margin-top: 32px;
+}
+
+.catalog-more .text-link {
+  font-size: 0.86rem;
+}
+
+.explore {
+  padding: 0 0 104px;
+}
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2.4vw, 28px);
+  margin-top: 32px;
+}
+
+.explore-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  padding: clamp(22px, 2.6vw, 30px);
+  background: var(--sand-light);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 44px rgba(var(--ink-rgb), 0.08);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.explore-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 54px rgba(var(--ink-rgb), 0.14);
+}
+
+.explore-label {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.1;
   letter-spacing: -0.02em;
 }
 
-.season-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-left: clamp(14px, 2vw, 26px);
-  border-left: 1px solid var(--line);
+.explore-description {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
 }
 
-.season-month {
+.explore-arrow {
+  margin-top: auto;
+  padding-top: 12px;
+  color: var(--sea-deep);
+  font-size: 1.2rem;
+}
+
+.contact-page {
+  padding: 24px 0 96px;
+}
+
+.contact-panel {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(28px, 5vw, 64px);
+  padding: clamp(28px, 5vw, 56px);
+  background: var(--sand-light);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 24px 60px rgba(var(--ink-rgb), 0.08);
+}
+
+.contact-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.contact-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-content: start;
+  margin: 0;
+}
+
+.contact-fact {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.contact-fact dt {
   color: var(--muted);
   font-size: 0.66rem;
   font-weight: 600;
@@ -575,7 +688,8 @@ h3 {
   letter-spacing: 0.12em;
 }
 
-.season-range {
+.contact-fact dd {
+  margin: 6px 0 0;
   font-family: var(--font-display);
   font-size: 1.1rem;
   font-variant-numeric: tabular-nums;
@@ -1430,22 +1544,20 @@ h3 {
   }
 
   .season-band-grid {
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 18px;
-  }
-
-  .season-intro {
-    grid-column: 1 / -1;
-    padding-right: 0;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .season-cell {
-    padding-left: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
 
   .catalog-list {
+    grid-template-columns: 1fr;
+  }
+
+  .explore-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-panel {
     grid-template-columns: 1fr;
   }
 

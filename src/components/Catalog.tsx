@@ -1,13 +1,27 @@
+import Link from "next/link";
 import type { Apartment } from "@/types/apartment";
-import { ApartmentCard } from "./ApartmentCard";
+import { ApartmentGrid } from "./ApartmentGrid";
 import { Reveal } from "./Reveal";
 
 interface CatalogProps {
   apartments: Apartment[];
   isSample: boolean;
+  title?: string;
+  lede?: string;
+  meta?: string;
+  moreHref?: string;
+  moreLabel?: string;
 }
 
-export function Catalog({ apartments, isSample }: CatalogProps) {
+export function Catalog({
+  apartments,
+  isSample,
+  title = "Departamentos",
+  lede = "Elegí el departamento que se ajuste a tu grupo y coordiná la reserva por WhatsApp.",
+  meta,
+  moreHref,
+  moreLabel,
+}: CatalogProps) {
   const count = String(apartments.length).padStart(2, "0");
 
   return (
@@ -17,31 +31,24 @@ export function Catalog({ apartments, isSample }: CatalogProps) {
           <div className="section-head">
             <div className="section-head-copy">
               <h2 id="catalog-title" className="section-title">
-                Departamentos
+                {title}
               </h2>
-              <p className="section-lede">
-                Elegí el departamento que se ajuste a tu grupo y coordiná la
-                reserva por WhatsApp.
-              </p>
+              <p className="section-lede">{lede}</p>
             </div>
-            <span className="section-meta">{count} departamentos</span>
+            <span className="section-meta">
+              {meta ?? `${count} departamentos`}
+            </span>
           </div>
         </Reveal>
 
-        {apartments.length > 0 ? (
-          <div className="catalog-list">
-            {apartments.map((apartment, index) => (
-              <Reveal
-                key={apartment.id}
-                className="catalog-item"
-                delay={index * 80}
-              >
-                <ApartmentCard apartment={apartment} index={index} />
-              </Reveal>
-            ))}
-          </div>
-        ) : (
-          <p className="empty-state">No hay departamentos publicados.</p>
+        <ApartmentGrid apartments={apartments} />
+
+        {moreHref && moreLabel && (
+          <p className="catalog-more">
+            <Link className="text-link" href={moreHref}>
+              {moreLabel}
+            </Link>
+          </p>
         )}
 
         {isSample && (

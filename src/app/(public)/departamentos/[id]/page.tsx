@@ -47,7 +47,7 @@ export default async function ApartmentPage({ params }: ApartmentPageProps) {
     <section className="detail" aria-labelledby="detail-title">
       <div className="shell">
         <nav className="breadcrumb" aria-label="Migas de pan">
-          <Link href="/">Departamentos</Link>
+          <Link href="/departamentos">Departamentos</Link>
           <span aria-hidden="true">/</span>
           <span>{apartment.title}</span>
         </nav>
