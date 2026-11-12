@@ -20,6 +20,9 @@ export function SiteFooter() {
             <p className="footer-label">Navegación</p>
             <ul className="footer-links">
               <li>
+                <Link href="/">Inicio</Link>
+              </li>
+              <li>
                 <Link href="/departamentos">Departamentos</Link>
               </li>
               <li>
