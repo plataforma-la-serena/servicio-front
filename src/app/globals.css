@@ -1005,13 +1005,6 @@ h3 {
   letter-spacing: -0.03em;
 }
 
-.footer-brand-name .brand-mark {
-  width: 13px;
-  height: 13px;
-  background: var(--sand-light);
-  box-shadow: 0 0 0 4px rgba(var(--sand-light-rgb), 0.14);
-}
-
 .footer-copy {
   max-width: 34ch;
   margin-top: 14px;

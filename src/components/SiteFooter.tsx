@@ -8,7 +8,6 @@ export function SiteFooter() {
         <div className="footer-grid">
           <div className="footer-brand">
             <p className="footer-brand-name">
-              <span className="brand-mark" aria-hidden="true" />
               <span>La Serena</span>
             </p>
             <p className="footer-copy">
