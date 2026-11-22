@@ -7,7 +7,7 @@ const STEPS = [
   },
   {
     title: "Verificación",
-    description: "Enviá una foto de tu DNI para iniciar la reserva.",
+    description: "Enviá tu nombre completo para iniciar la reserva.",
   },
   {
     title: "Confirmación",
