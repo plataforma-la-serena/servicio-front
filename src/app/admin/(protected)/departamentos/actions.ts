@@ -92,7 +92,8 @@ function fail(error: string): ActionResult {
 
 function refresh(): void {
   revalidatePath("/admin/departamentos");
-  revalidatePath("/");
+  // Invalida el sitio público completo: portada, catálogo y fichas.
+  revalidatePath("/", "layout");
 }
 
 export async function createApartmentAction(
