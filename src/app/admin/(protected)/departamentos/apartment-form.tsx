@@ -111,15 +111,21 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
 
       <div className="form-field">
         <label className="label" htmlFor="af-images">
-          Imágenes (URLs separadas por coma)
+          Imágenes (opcional, URLs separadas por coma)
         </label>
         <input
           className="input"
           id="af-images"
           name="images"
-          type="url"
+          type="text"
+          inputMode="url"
+          placeholder="https://ejemplo.com/living.jpg, https://ejemplo.com/dormitorio.jpg"
           defaultValue={apartment?.images.join(", ")}
         />
+        <p className="form-hint">
+          Enlaces directos a las fotos (JPG, PNG o WebP). Si lo dejás vacío, se
+          usan las imágenes de referencia.
+        </p>
       </div>
 
       <label className="form-check">
