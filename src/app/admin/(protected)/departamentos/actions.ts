@@ -7,9 +7,49 @@ import {
   createApartment,
   deleteApartment,
   updateApartment,
+  uploadImage,
   type ApartmentInput,
 } from "@/lib/api/mutations";
 import { getSession } from "@/lib/api/session";
+
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png"];
+
+type UploadResult =
+  | { ok: true; urls: string[] }
+  | { ok: false; error: string };
+
+async function uploadImages(formData: FormData): Promise<UploadResult> {
+  const files = formData
+    .getAll("imageFiles")
+    .filter((entry): entry is File => entry instanceof File && entry.size > 0);
+
+  const urls: string[] = [];
+
+  for (const file of files) {
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      return { ok: false, error: "Las fotos deben ser JPG o PNG." };
+    }
+
+    if (file.size > MAX_IMAGE_BYTES) {
+      return { ok: false, error: "Cada foto debe pesar menos de 5 MB." };
+    }
+
+    const data = Buffer.from(await file.arrayBuffer());
+    const result = await uploadImage({
+      mimeType: file.type,
+      dataBase64: data.toString("base64"),
+    });
+
+    if (!result.ok) {
+      return { ok: false, error: "No se pudieron subir las fotos." };
+    }
+
+    urls.push(result.data.url);
+  }
+
+  return { ok: true, urls };
+}
 
 function splitList(raw: FormDataEntryValue | null): string[] {
   return String(raw ?? "")
@@ -69,6 +109,13 @@ export async function createApartmentAction(
     return fail("Revisá los campos: título, descripción, precio y capacidad.");
   }
 
+  const uploaded = await uploadImages(formData);
+  if (!uploaded.ok) {
+    return fail(uploaded.error);
+  }
+
+  input.images = [...input.images, ...uploaded.urls];
+
   const result = await createApartment(input);
   if (!result.ok) {
     return fail("No se pudo crear el departamento.");
@@ -92,6 +139,13 @@ export async function updateApartmentAction(
   if (!input) {
     return fail("Revisá los campos: título, descripción, precio y capacidad.");
   }
+
+  const uploaded = await uploadImages(formData);
+  if (!uploaded.ok) {
+    return fail(uploaded.error);
+  }
+
+  input.images = [...input.images, ...uploaded.urls];
 
   const result = await updateApartment(id, input);
   if (!result.ok) {

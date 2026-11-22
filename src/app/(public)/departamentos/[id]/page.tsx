@@ -105,7 +105,7 @@ export default async function ApartmentPage({ params }: ApartmentPageProps) {
           </aside>
         </div>
 
-        <ApartmentGallery />
+        <ApartmentGallery images={apartment.images} />
 
         <AvailabilityCalendar apartmentId={apartment.id} />
 

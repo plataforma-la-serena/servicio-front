@@ -110,8 +110,26 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
       </div>
 
       <div className="form-field">
+        <label className="label" htmlFor="af-image-files">
+          Subir fotos
+        </label>
+        <input
+          className="input"
+          id="af-image-files"
+          name="imageFiles"
+          type="file"
+          accept="image/jpeg,image/png"
+          multiple
+        />
+        <p className="form-hint">
+          JPG o PNG, hasta 5 MB cada una. Se agregan a las imágenes del
+          departamento al guardar.
+        </p>
+      </div>
+
+      <div className="form-field">
         <label className="label" htmlFor="af-images">
-          Imágenes (opcional, URLs separadas por coma)
+          Imágenes por URL (opcional)
         </label>
         <input
           className="input"
@@ -123,8 +141,8 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
           defaultValue={apartment?.images.join(", ")}
         />
         <p className="form-hint">
-          Enlaces directos a las fotos (JPG, PNG o WebP). Si lo dejás vacío, se
-          usan las imágenes de referencia.
+          Enlaces directos a fotos ya alojadas en otro sitio, separados por
+          coma. Si no tenés, dejalo vacío.
         </p>
       </div>
 

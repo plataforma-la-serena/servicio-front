@@ -13,7 +13,11 @@ interface ApartmentCardProps {
 export function ApartmentCard({ apartment, index }: ApartmentCardProps) {
   const folio = String(index + 1).padStart(2, "0");
   const detailHref = `/departamentos/${apartment.id}`;
-  const image = referenceInterior(index);
+  const reference = referenceInterior(index);
+  const hasPhoto = apartment.images.length > 0;
+  const image = hasPhoto
+    ? { src: apartment.images[0], alt: apartment.title }
+    : reference;
 
   return (
     <article className="apartment-card">
@@ -24,14 +28,18 @@ export function ApartmentCard({ apartment, index }: ApartmentCardProps) {
       >
         <Image
           src={image.src}
-          alt={`${image.alt} (imagen de referencia)`}
+          alt={
+            hasPhoto ? image.alt : `${reference.alt} (imagen de referencia)`
+          }
           fill
           sizes="(max-width: 900px) 100vw, 50vw"
         />
         <span className="apartment-folio" aria-hidden="true">
           {folio}
         </span>
-        <span className="apartment-reference">Imagen de referencia</span>
+        {!hasPhoto && (
+          <span className="apartment-reference">Imagen de referencia</span>
+        )}
       </Link>
 
       <div className="apartment-body">
