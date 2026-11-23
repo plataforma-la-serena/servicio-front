@@ -44,13 +44,27 @@ export default async function AdminChatsPage() {
 
             return (
               <li key={session.id} className="admin-list-row chat-row">
-                <span className="admin-list-title">
-                  <Link
-                    href={`/admin/chats/${session.id}`}
-                    className="chat-link"
-                  >
-                    {session.phoneNumber}
-                  </Link>
+                <span className="admin-list-title chat-contact">
+                  {session.wantsReservation && (
+                    <span
+                      className="chat-want-dot"
+                      title="Quiere reservar"
+                      aria-label="Quiere reservar"
+                    />
+                  )}
+                  <span className="chat-contact-copy">
+                    <Link
+                      href={`/admin/chats/${session.id}`}
+                      className="chat-link"
+                    >
+                      {session.customerName ?? session.phoneNumber}
+                    </Link>
+                    {session.customerName && (
+                      <span className="chat-phone-small">
+                        {session.phoneNumber}
+                      </span>
+                    )}
+                  </span>
                 </span>
                 <span className={`status ${session.botActive ? "status-muted" : "status-PENDING"}`}>
                   {session.botActive ? "Bot activo" : "Atención humana"}

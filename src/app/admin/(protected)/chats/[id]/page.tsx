@@ -101,12 +101,28 @@ export default async function ChatDetailPage({ params }: ChatDetailPageProps) {
             {session.phoneNumber.slice(-2)}
           </span>
           <div className="wa-contact">
-            <strong className="wa-phone">{session.phoneNumber}</strong>
-            <span
-              className={`wa-status ${session.botActive ? "is-bot" : "is-human"}`}
-            >
-              <span className="wa-dot" aria-hidden="true" />
-              {session.botActive ? "Bot activo" : "Atención humana"}
+            <strong className="wa-phone">
+              {session.customerName ?? session.phoneNumber}
+              {session.wantsReservation && (
+                <span
+                  className="wa-lead-dot"
+                  title="Quiere reservar"
+                  aria-label="Quiere reservar"
+                />
+              )}
+            </strong>
+            <span className="wa-subline">
+              {session.customerName && (
+                <span className="wa-phone-small">
+                  {session.phoneNumber}
+                </span>
+              )}
+              <span
+                className={`wa-status ${session.botActive ? "is-bot" : "is-human"}`}
+              >
+                <span className="wa-dot" aria-hidden="true" />
+                {session.botActive ? "Bot activo" : "Atención humana"}
+              </span>
             </span>
           </div>
           <form action={setBotActiveAction} className="wa-toggle">

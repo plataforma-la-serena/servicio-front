@@ -59,6 +59,8 @@ export interface ChatMessage {
 export interface ChatSessionRow {
   id: string;
   phoneNumber: string;
+  customerName: string | null;
+  wantsReservation: boolean;
   botActive: boolean;
   lastInteraction: string;
   messages: ChatMessage[];
