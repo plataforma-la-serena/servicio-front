@@ -36,7 +36,11 @@ export function deleteApartment(id: string) {
   return apiFetch<{ ok: true }>(`/apartments/${id}`, { method: "DELETE" });
 }
 
-export function uploadImage(input: { mimeType: string; dataBase64: string }) {
+export function uploadImage(input: {
+  mimeType: string;
+  dataBase64: string;
+  sourceUrl?: string;
+}) {
   return apiFetch<{ id: string; url: string }>("/media", {
     method: "POST",
     body: input,

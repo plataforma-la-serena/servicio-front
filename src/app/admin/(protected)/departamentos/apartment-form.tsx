@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { useActionState } from "react";
 import type { AdminApartment, ActionResult } from "@/types/admin";
 import { INTERIOR_IMAGES } from "@/lib/reference-images";
 import { ImageCropper } from "./image-cropper";
+import { resolveImageSources } from "./crop-actions";
 import {
   createApartmentAction,
   updateApartmentAction,
@@ -22,10 +23,35 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
   const [previews, setPreviews] = useState<string[]>([]);
   const [urlValue, setUrlValue] = useState(apartment?.images.join(", ") ?? "");
   const [coverIndex, setCoverIndex] = useState(apartment?.coverIndex ?? 0);
+  const [sources, setSources] = useState<Record<string, string>>({});
   const [editingImage, setEditingImage] = useState<{
     src: string;
+    sourceUrl: string;
     index: number;
   } | null>(null);
+
+  useEffect(() => {
+    const urls = (apartment?.images ?? []).filter((url) =>
+      url.startsWith("/media/"),
+    );
+
+    if (urls.length === 0) {
+      return;
+    }
+
+    let active = true;
+    resolveImageSources(urls)
+      .then((map) => {
+        if (active) {
+          setSources((current) => ({ ...current, ...map }));
+        }
+      })
+      .catch(() => undefined);
+
+    return () => {
+      active = false;
+    };
+  }, [apartment?.id]);
 
   const action = apartment
     ? updateApartmentAction.bind(null, apartment.id)
@@ -58,11 +84,17 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
     setPreviews(files.map((file) => URL.createObjectURL(file)));
   }
 
-  function replaceImage(index: number, url: string) {
+  function replaceImage(index: number, url: string, sourceUrl: string) {
     const list = [...parsedImages];
     list[index] = url;
     setUrlValue(list.join(", "));
+    setSources((current) => ({ ...current, [url]: sourceUrl }));
     setEditingImage(null);
+  }
+
+  function editPhoto(photo: { src: string }, index: number) {
+    const sourceUrl = sources[photo.src] ?? photo.src;
+    setEditingImage({ src: sourceUrl, sourceUrl, index });
   }
 
   return (
@@ -234,7 +266,7 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
                 <button
                   type="button"
                   className="editor-photo-edit"
-                  onClick={() => setEditingImage({ src: photo.src, index })}
+                  onClick={() => editPhoto(photo, index)}
                 >
                   Editar
                 </button>
@@ -310,8 +342,11 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
       {editingImage && (
         <ImageCropper
           src={editingImage.src}
+          sourceUrl={editingImage.sourceUrl}
           onCancel={() => setEditingImage(null)}
-          onSaved={(url) => replaceImage(editingImage.index, url)}
+          onSaved={(url, sourceUrl) =>
+            replaceImage(editingImage.index, url, sourceUrl)
+          }
         />
       )}
     </form>

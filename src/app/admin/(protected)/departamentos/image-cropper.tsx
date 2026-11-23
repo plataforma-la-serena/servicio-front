@@ -8,11 +8,17 @@ import { uploadCroppedImage } from "./crop-actions";
 
 interface ImageCropperProps {
   src: string;
+  sourceUrl: string;
   onCancel: () => void;
-  onSaved: (url: string) => void;
+  onSaved: (url: string, sourceUrl: string) => void;
 }
 
-export function ImageCropper({ src, onCancel, onSaved }: ImageCropperProps) {
+export function ImageCropper({
+  src,
+  sourceUrl,
+  onCancel,
+  onSaved,
+}: ImageCropperProps) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [area, setArea] = useState<Area | null>(null);
@@ -46,6 +52,7 @@ export function ImageCropper({ src, onCancel, onSaved }: ImageCropperProps) {
       const blob = await cropToJpeg(src, area);
       const formData = new FormData();
       formData.append("file", new File([blob], "recorte.jpg", { type: "image/jpeg" }));
+      formData.append("sourceUrl", sourceUrl);
       const result = await uploadCroppedImage(formData);
 
       if (!result.ok) {
@@ -53,7 +60,7 @@ export function ImageCropper({ src, onCancel, onSaved }: ImageCropperProps) {
         return;
       }
 
-      onSaved(result.url);
+      onSaved(result.url, result.sourceUrl);
     } catch {
       setError(
         "No se pudo recortar esta imagen. Si es un enlace externo, probá subirla de nuevo.",
