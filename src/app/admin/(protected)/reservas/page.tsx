@@ -92,41 +92,18 @@ export default async function AdminBookingsPage() {
         </h2>
         <dl className="admin-help-list">
           <div>
-            <dt>Nueva reserva</dt>
-            <dd>
-              Cargá departamento, fechas, teléfono y notas. Las fechas deben
-              estar dentro de la temporada (15/12 al 15/03) y no superponerse
-              con otra reserva activa.
-            </dd>
-          </div>
-          <div>
-            <dt>Pendiente</dt>
-            <dd>
-              La reserva está cargada pero sin confirmar. Bloquea las fechas y
-              suma en “Reservas pendientes”.
-            </dd>
-          </div>
-          <div>
-            <dt>Confirmada</dt>
-            <dd>
-              La reserva está confirmada. Bloquea las fechas y suma al “Ingreso
-              confirmado” del resumen.
-            </dd>
-          </div>
-          <div>
-            <dt>Cancelada</dt>
-            <dd>
-              Libera las fechas en el calendario y no suma ingresos. Queda en el
-              historial.
-            </dd>
-          </div>
-          <div>
             <dt>Confirmar</dt>
-            <dd>Pasa una reserva pendiente a confirmada.</dd>
+            <dd>
+              Pasa la reserva a confirmada. Bloquea las fechas y suma al
+              “Ingreso confirmado” del resumen.
+            </dd>
           </div>
           <div>
             <dt>Cancelar</dt>
-            <dd>Libera las fechas y deja la reserva como cancelada.</dd>
+            <dd>
+              Libera las fechas en el calendario y deja la reserva como
+              cancelada.
+            </dd>
           </div>
           <div>
             <dt>Editar</dt>
@@ -138,21 +115,6 @@ export default async function AdminBookingsPage() {
           <div>
             <dt>Eliminar</dt>
             <dd>Borra la reserva definitivamente. No se puede deshacer.</dd>
-          </div>
-          <div>
-            <dt>Total</dt>
-            <dd>
-              Se calcula con las noches de la estadía por el precio por noche
-              del departamento, en CLP.
-            </dd>
-          </div>
-          <div>
-            <dt>Calendario público</dt>
-            <dd>
-              Los días reservados se ven ocupados en la disponibilidad de la
-              ficha del departamento. Los días fuera de temporada no son
-              reservables.
-            </dd>
           </div>
         </dl>
       </section>
