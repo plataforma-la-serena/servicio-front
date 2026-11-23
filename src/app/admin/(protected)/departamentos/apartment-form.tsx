@@ -268,24 +268,6 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
             />
             <span>Publicado en el catálogo</span>
           </label>
-
-          {state.error && (
-            <p className="form-error" role="alert">
-              {state.error}
-            </p>
-          )}
-
-          <button className="button-dark" type="submit" disabled={pending}>
-            {pending
-              ? "Guardando…"
-              : apartment
-                ? "Guardar cambios"
-                : "Crear departamento"}
-          </button>
-
-          <p className="form-hint">
-            Los cambios se publican en el sitio y en el bot al guardar.
-          </p>
         </aside>
       </div>
 
@@ -421,6 +403,27 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
           </div>
         </div>
       </section>
+
+      <div className="editor-footer">
+        {state.error && (
+          <p className="form-error" role="alert">
+            {state.error}
+          </p>
+        )}
+
+        <div className="editor-footer-row">
+          <p className="form-hint">
+            Los cambios se publican en el sitio y en el bot al guardar.
+          </p>
+          <button className="button-dark" type="submit" disabled={pending}>
+            {pending
+              ? "Guardando…"
+              : apartment
+                ? "Guardar cambios"
+                : "Crear departamento"}
+          </button>
+        </div>
+      </div>
 
       {editingImage && (
         <ImageCropper
