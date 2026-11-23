@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -37,6 +37,9 @@ export const metadata: Metadata = {
   },
   description:
     "Departamentos amoblados en La Serena para la temporada de verano. Consultas y reservas por WhatsApp.",
+  other: {
+    "supported-color-schemes": "light",
+  },
   openGraph: {
     title: "La Serena — Departamentos temporarios",
     description:
@@ -44,6 +47,11 @@ export const metadata: Metadata = {
     locale: "es_CL",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#f0dfcf",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

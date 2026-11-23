@@ -4,6 +4,8 @@
    ───────────────────────────────────────────────────────── */
 
 :root {
+  color-scheme: only light;
+
   /* Organic tokens — paleta Atardecer */
   --sand: #f0dfcf;
   --sand-rgb: 240, 223, 207;
@@ -55,6 +57,7 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--sand);
 }
 
 body {
