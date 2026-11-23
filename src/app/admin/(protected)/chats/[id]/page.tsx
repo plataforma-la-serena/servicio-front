@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Fragment } from "react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { fetchChatDetail } from "@/lib/api/endpoints";
+import { ChatScroller } from "./chat-scroller";
 import {
   sendOperatorMessageAction,
   setBotActiveAction,
@@ -18,6 +20,42 @@ const ROLE_LABEL: Record<string, string> = {
   OPERATOR: "Operador",
   SYSTEM: "Sistema",
 };
+
+const TIME_ZONE = "America/Santiago";
+
+function timeLabel(iso: string): string {
+  return new Date(iso).toLocaleTimeString("es-CL", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: TIME_ZONE,
+  });
+}
+
+function dayKey(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-CA", {
+    timeZone: TIME_ZONE,
+  });
+}
+
+function dayLabel(iso: string): string {
+  const key = dayKey(iso);
+  const today = dayKey(new Date().toISOString());
+  const yesterday = dayKey(new Date(Date.now() - 86_400_000).toISOString());
+
+  if (key === today) {
+    return "Hoy";
+  }
+  if (key === yesterday) {
+    return "Ayer";
+  }
+
+  return new Date(iso).toLocaleDateString("es-CL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    timeZone: TIME_ZONE,
+  });
+}
 
 interface ChatDetailPageProps {
   params: Promise<{ id: string }>;
@@ -42,6 +80,7 @@ export default async function ChatDetailPage({ params }: ChatDetailPageProps) {
   }
 
   const { session, messages } = result.data;
+  let lastDay = "";
 
   return (
     <div className="shell admin-section">
@@ -51,66 +90,94 @@ export default async function ChatDetailPage({ params }: ChatDetailPageProps) {
         <span>{session.phoneNumber}</span>
       </nav>
 
-      <div className="section-head">
-        <h1 className="section-title">{session.phoneNumber}</h1>
-        <span className={`status ${session.botActive ? "status-muted" : "status-PENDING"}`}>
-          {session.botActive ? "Bot activo" : "Atención humana"}
-        </span>
-      </div>
+      <section className="wa-chat" aria-label="Conversación con el cliente">
+        <header className="wa-header">
+          <Link
+            href="/admin/chats"
+            className="wa-back"
+            aria-label="Volver a chats"
+          >
+            ←
+          </Link>
+          <span className="wa-avatar" aria-hidden="true">
+            {session.phoneNumber.slice(-2)}
+          </span>
+          <div className="wa-contact">
+            <strong className="wa-phone">{session.phoneNumber}</strong>
+            <span
+              className={`wa-status ${session.botActive ? "is-bot" : "is-human"}`}
+            >
+              <span className="wa-dot" aria-hidden="true" />
+              {session.botActive ? "Bot activo" : "Atención humana"}
+            </span>
+          </div>
+          <form action={setBotActiveAction} className="wa-toggle">
+            <input type="hidden" name="id" value={session.id} />
+            <input
+              type="hidden"
+              name="botActive"
+              value={String(session.botActive)}
+            />
+            <button type="submit" className="wa-toggle-btn">
+              {session.botActive ? "Pausar bot" : "Reactivar bot"}
+            </button>
+          </form>
+        </header>
 
-      <div className="chat-controls">
-        <form action={setBotActiveAction}>
+        <ChatScroller>
+          {messages.length === 0 ? (
+            <p className="wa-empty">Sin mensajes todavía.</p>
+          ) : (
+            messages.map((message) => {
+              const day = dayKey(message.createdAt);
+              const showDay = day !== lastDay;
+              lastDay = day;
+
+              return (
+                <Fragment key={message.id}>
+                  {showDay && (
+                    <div className="wa-day">{dayLabel(message.createdAt)}</div>
+                  )}
+                  <div className={`wa-msg wa-${message.role.toLowerCase()}`}>
+                    <span className="wa-msg-meta">
+                      <span>{ROLE_LABEL[message.role] ?? message.role}</span>
+                      <span>{timeLabel(message.createdAt)}</span>
+                    </span>
+                    <p className="wa-msg-text">{message.content}</p>
+                  </div>
+                </Fragment>
+              );
+            })
+          )}
+        </ChatScroller>
+
+        <form action={sendOperatorMessageAction} className="wa-composer">
           <input type="hidden" name="id" value={session.id} />
-          <input type="hidden" name="botActive" value={String(session.botActive)} />
-          <button className="button-dark" type="submit">
-            {session.botActive ? "Pausar bot" : "Reactivar bot"}
-          </button>
+          <div className="wa-composer-row">
+            <textarea
+              className="wa-input"
+              id="reply-content"
+              name="content"
+              rows={1}
+              maxLength={4000}
+              placeholder="Escribí una nota interna…"
+              aria-label="Nota interna"
+              required
+            />
+            <button
+              className="wa-send"
+              type="submit"
+              aria-label="Guardar nota"
+            >
+              ➤
+            </button>
+          </div>
+          <p className="wa-composer-note">
+            Nota interna: queda registrada en la conversación, no se envía al
+            cliente.
+          </p>
         </form>
-        <p className="chat-controls-note">
-          {session.botActive
-            ? "El bot responde automáticamente. Pausalo para atender vos."
-            : "El bot está pausado: los mensajes quedan guardados para vos."}
-        </p>
-      </div>
-
-      <section aria-label="Mensajes" className="admin-block">
-        {messages.length === 0 ? (
-          <p className="empty-state">Sin mensajes.</p>
-        ) : (
-          <ol className="chat-log">
-            {messages.map((message) => (
-              <li key={message.id} className={`chat-msg chat-msg-${message.role}`}>
-                <span className="chat-msg-meta">
-                  {ROLE_LABEL[message.role] ?? message.role}
-                  {" · "}
-                  {message.createdAt.slice(11, 16)}
-                </span>
-                <p className="chat-msg-body">{message.content}</p>
-              </li>
-            ))}
-          </ol>
-        )}
       </section>
-
-      <form action={sendOperatorMessageAction} className="form chat-reply">
-        <input type="hidden" name="id" value={session.id} />
-        <div className="form-field">
-          <label className="label" htmlFor="reply-content">
-            Mensaje del operador (queda registrado en la conversación)
-          </label>
-          <textarea
-            className="input"
-            id="reply-content"
-            name="content"
-            rows={2}
-            maxLength={4000}
-            required
-          />
-        </div>
-        <button className="button-dark" type="submit">
-          Registrar mensaje
-        </button>
-      </form>
     </div>
   );
 }
