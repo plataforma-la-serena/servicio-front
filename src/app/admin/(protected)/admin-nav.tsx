@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { logoutAction } from "../login/actions";
 
 const LINKS = [
@@ -13,6 +16,15 @@ interface AdminNavProps {
 }
 
 export function AdminNav({ email }: AdminNavProps) {
+  const pathname = usePathname();
+
+  function isActive(href: string): boolean {
+    if (href === "/admin") {
+      return pathname === "/admin";
+    }
+    return pathname === href || pathname.startsWith(`${href}/`);
+  }
+
   return (
     <header className="admin-header">
       <div className="shell admin-header-inner">
@@ -23,11 +35,20 @@ export function AdminNav({ email }: AdminNavProps) {
         </Link>
 
         <nav className="admin-nav" aria-label="Navegación del panel">
-          {LINKS.map((link) => (
-            <Link key={link.href} href={link.href}>
-              {link.label}
-            </Link>
-          ))}
+          {LINKS.map((link) => {
+            const active = isActive(link.href);
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={active ? "is-active" : undefined}
+                aria-current={active ? "page" : undefined}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="admin-user">

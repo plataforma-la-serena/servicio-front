@@ -1749,10 +1749,10 @@ h3 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 0 20px;
+  min-height: 46px;
+  padding: 0 22px;
   border: 1px solid var(--ink);
-  border-radius: 10px;
+  border-radius: 999px;
   background: var(--ink);
   color: var(--sand-light);
   font-size: 0.8rem;
@@ -1762,12 +1762,14 @@ h3 {
   transition:
     background-color 180ms ease,
     border-color 180ms ease,
+    transform 180ms ease,
     opacity 180ms ease;
 }
 
 .button-dark:hover {
   background: var(--sea-deep);
   border-color: var(--sea-deep);
+  transform: translateY(-1px);
 }
 
 .button-dark:disabled {
@@ -1854,20 +1856,34 @@ h3 {
 
 .admin-nav {
   display: flex;
-  gap: 24px;
+  gap: 4px;
+  padding: 4px;
+  background: var(--sand-light);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow-x: auto;
 }
 
 .admin-nav a {
+  padding: 8px 14px;
+  border-radius: 999px;
   color: var(--ink-soft);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
 }
 
-.admin-nav a:hover {
-  color: var(--sea-deep);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
+.admin-nav a:hover:not(.is-active) {
+  background: var(--oat);
+  color: var(--ink);
+}
+
+.admin-nav a.is-active {
+  background: var(--ink);
+  color: var(--sand-light);
 }
 
 .admin-user {
@@ -2595,8 +2611,10 @@ textarea.input {
   .admin-nav {
     order: 3;
     width: 100%;
-    gap: 20px;
-    padding-top: 12px;
-    border-top: 1px solid var(--line);
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    overflow-x: auto;
   }
 }
