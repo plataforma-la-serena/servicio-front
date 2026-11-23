@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/api/session";
+import { currentSeason } from "@/lib/availability";
 import {
   createBooking,
   deleteBooking,
@@ -52,6 +53,14 @@ export async function createBookingAction(
   }
   if (startDate >= endDate) {
     return fail("La fecha de inicio debe ser anterior a la de fin.");
+  }
+
+  const season = currentSeason();
+  const seasonFrom = season.from.slice(0, 10);
+  const seasonTo = season.to.slice(0, 10);
+
+  if (startDate < seasonFrom || endDate > seasonTo) {
+    return fail("Las reservas van del 15/12 al 15/03.");
   }
 
   const result = await createBooking({

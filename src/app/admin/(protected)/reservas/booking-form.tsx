@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { useActionState } from "react";
+import { currentSeason } from "@/lib/availability";
 import type { ActionResult, BookingStatus } from "@/types/admin";
 import { createBookingAction, setBookingStatusAction } from "./actions";
 
@@ -10,11 +12,36 @@ interface BookingFormProps {
   apartments: Array<{ id: string; title: string }>;
 }
 
+function formatDate(iso: string): string {
+  const [year, month, day] = iso.split("-");
+  return `${day}/${month}/${year}`;
+}
+
 export function BookingForm({ apartments }: BookingFormProps) {
   const [state, formAction, pending] = useActionState(
     createBookingAction,
     INITIAL,
   );
+
+  const season = currentSeason();
+  const minDate = season.from.slice(0, 10);
+  const maxDate = season.to.slice(0, 10);
+
+  const [phone, setPhone] = useState("");
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
+
+  const digits = phone.replace(/\D/g, "");
+  const phoneValid = digits.length >= 8 && digits.length <= 15;
+  const datesValid =
+    start !== "" &&
+    end !== "" &&
+    start < end &&
+    start >= minDate &&
+    end <= maxDate;
+  const phoneError = phone.length > 0 && !phoneValid;
+  const datesError = start !== "" && end !== "" && start >= end;
+  const canSubmit = phoneValid && datesValid;
 
   return (
     <form className="form" action={formAction}>
@@ -46,13 +73,21 @@ export function BookingForm({ apartments }: BookingFormProps) {
             id="bk-phone"
             name="customerPhone"
             inputMode="tel"
-            pattern="^[+0-9()\-\s]{8,20}$"
+            value={phone}
+            onChange={(event) => setPhone(event.target.value)}
             placeholder="+54 9 261 336 8554"
             required
+            aria-invalid={phoneError}
           />
-          <p className="form-hint">
-            Puede incluir +, espacios o guiones. Se guardan solo los números.
-          </p>
+          {phoneError ? (
+            <p className="form-error" role="alert">
+              Ingresá entre 8 y 15 dígitos.
+            </p>
+          ) : (
+            <p className="form-hint">
+              Puede incluir +, espacios o guiones. Se guardan solo los números.
+            </p>
+          )}
         </div>
       </div>
 
@@ -66,6 +101,10 @@ export function BookingForm({ apartments }: BookingFormProps) {
             id="bk-start"
             name="startDate"
             type="date"
+            min={minDate}
+            max={maxDate}
+            value={start}
+            onChange={(event) => setStart(event.target.value)}
             required
           />
         </div>
@@ -78,6 +117,10 @@ export function BookingForm({ apartments }: BookingFormProps) {
             id="bk-end"
             name="endDate"
             type="date"
+            min={start || minDate}
+            max={maxDate}
+            value={end}
+            onChange={(event) => setEnd(event.target.value)}
             required
           />
         </div>
@@ -94,6 +137,16 @@ export function BookingForm({ apartments }: BookingFormProps) {
         </div>
       </div>
 
+      <p className="form-hint">
+        Temporada: {formatDate(minDate)} al {formatDate(maxDate)}.
+      </p>
+
+      {datesError && (
+        <p className="form-error" role="alert">
+          La fecha de fin debe ser posterior a la de inicio.
+        </p>
+      )}
+
       {state.error && (
         <p className="form-error" role="alert">
           {state.error}
@@ -106,7 +159,11 @@ export function BookingForm({ apartments }: BookingFormProps) {
         </p>
       )}
 
-      <button className="button-dark" type="submit" disabled={pending}>
+      <button
+        className="button-dark"
+        type="submit"
+        disabled={pending || !canSubmit}
+      >
         {pending ? "Creando…" : "Crear reserva"}
       </button>
     </form>
@@ -136,4 +193,3 @@ export function BookingStatusButtons({
     </span>
   );
 }
-
