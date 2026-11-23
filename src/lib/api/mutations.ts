@@ -40,6 +40,7 @@ export function uploadImage(input: {
   mimeType: string;
   dataBase64: string;
   sourceUrl?: string;
+  cropData?: Record<string, number>;
 }) {
   return apiFetch<{ id: string; url: string }>("/media", {
     method: "POST",

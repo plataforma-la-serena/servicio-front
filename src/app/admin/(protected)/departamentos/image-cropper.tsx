@@ -1,7 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import Cropper, { type Area } from "react-easy-crop";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Cropper, {
+  getInitialCropFromCroppedAreaPercentages,
+  type Area,
+  type MediaSize,
+} from "react-easy-crop";
 import "react-easy-crop/react-easy-crop.css";
 import { cropToJpeg } from "@/lib/crop-image";
 import { uploadCroppedImage } from "./crop-actions";
@@ -9,25 +13,61 @@ import { uploadCroppedImage } from "./crop-actions";
 interface ImageCropperProps {
   src: string;
   sourceUrl: string;
+  initialPercentages?: Area | null;
   onCancel: () => void;
-  onSaved: (url: string, sourceUrl: string) => void;
+  onSaved: (url: string, sourceUrl: string, cropData: Area | null) => void;
 }
 
 export function ImageCropper({
   src,
   sourceUrl,
+  initialPercentages,
   onCancel,
   onSaved,
 }: ImageCropperProps) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [area, setArea] = useState<Area | null>(null);
+  const [percentages, setPercentages] = useState<Area | null>(null);
+  const [mediaSize, setMediaSize] = useState<MediaSize | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const appliedRef = useRef(false);
 
-  const onCropComplete = useCallback((_area: Area, pixels: Area) => {
+  const onCropComplete = useCallback((percent: Area, pixels: Area) => {
     setArea(pixels);
+    setPercentages(percent);
   }, []);
+
+  useEffect(() => {
+    if (
+      appliedRef.current ||
+      !initialPercentages ||
+      !mediaSize ||
+      !containerRef.current
+    ) {
+      return;
+    }
+
+    const rect = containerRef.current.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) {
+      return;
+    }
+
+    const initial = getInitialCropFromCroppedAreaPercentages(
+      initialPercentages,
+      mediaSize,
+      0,
+      { width: rect.width, height: rect.height },
+      1,
+      3,
+    );
+
+    setCrop(initial.crop);
+    setZoom(initial.zoom);
+    appliedRef.current = true;
+  }, [initialPercentages, mediaSize]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -53,6 +93,9 @@ export function ImageCropper({
       const formData = new FormData();
       formData.append("file", new File([blob], "recorte.jpg", { type: "image/jpeg" }));
       formData.append("sourceUrl", sourceUrl);
+      if (percentages) {
+        formData.append("cropData", JSON.stringify(percentages));
+      }
       const result = await uploadCroppedImage(formData);
 
       if (!result.ok) {
@@ -60,7 +103,7 @@ export function ImageCropper({
         return;
       }
 
-      onSaved(result.url, result.sourceUrl);
+      onSaved(result.url, result.sourceUrl, percentages);
     } catch {
       setError(
         "No se pudo recortar esta imagen. Si es un enlace externo, probá subirla de nuevo.",
@@ -85,7 +128,7 @@ export function ImageCropper({
           </button>
         </div>
 
-        <div className="crop-area">
+        <div className="crop-area" ref={containerRef}>
           <Cropper
             image={src}
             crop={crop}
@@ -94,6 +137,7 @@ export function ImageCropper({
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
+            onMediaLoaded={setMediaSize}
             showGrid={false}
           />
         </div>

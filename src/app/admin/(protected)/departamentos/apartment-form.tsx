@@ -3,10 +3,11 @@
 import Image from "next/image";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { useActionState } from "react";
+import type { Area } from "react-easy-crop";
 import type { AdminApartment, ActionResult } from "@/types/admin";
 import { INTERIOR_IMAGES } from "@/lib/reference-images";
 import { ImageCropper } from "./image-cropper";
-import { resolveImageSources } from "./crop-actions";
+import { resolveImageSources, type CropMeta } from "./crop-actions";
 import {
   createApartmentAction,
   updateApartmentAction,
@@ -23,11 +24,12 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
   const [previews, setPreviews] = useState<string[]>([]);
   const [urlValue, setUrlValue] = useState(apartment?.images.join(", ") ?? "");
   const [coverIndex, setCoverIndex] = useState(apartment?.coverIndex ?? 0);
-  const [sources, setSources] = useState<Record<string, string>>({});
+  const [sources, setSources] = useState<Record<string, CropMeta>>({});
   const [editingImage, setEditingImage] = useState<{
     src: string;
     sourceUrl: string;
     index: number;
+    initialPercentages: Area | null;
   } | null>(null);
 
   useEffect(() => {
@@ -84,17 +86,31 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
     setPreviews(files.map((file) => URL.createObjectURL(file)));
   }
 
-  function replaceImage(index: number, url: string, sourceUrl: string) {
+  function replaceImage(
+    index: number,
+    url: string,
+    sourceUrl: string,
+    cropData: Area | null,
+  ) {
     const list = [...parsedImages];
     list[index] = url;
     setUrlValue(list.join(", "));
-    setSources((current) => ({ ...current, [url]: sourceUrl }));
+    setSources((current) => ({
+      ...current,
+      [url]: { sourceUrl, cropData },
+    }));
     setEditingImage(null);
   }
 
   function editPhoto(photo: { src: string }, index: number) {
-    const sourceUrl = sources[photo.src] ?? photo.src;
-    setEditingImage({ src: sourceUrl, sourceUrl, index });
+    const meta = sources[photo.src];
+    const sourceUrl = meta?.sourceUrl ?? photo.src;
+    setEditingImage({
+      src: sourceUrl,
+      sourceUrl,
+      index,
+      initialPercentages: (meta?.cropData as Area | null) ?? null,
+    });
   }
 
   return (
@@ -343,9 +359,10 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
         <ImageCropper
           src={editingImage.src}
           sourceUrl={editingImage.sourceUrl}
+          initialPercentages={editingImage.initialPercentages}
           onCancel={() => setEditingImage(null)}
-          onSaved={(url, sourceUrl) =>
-            replaceImage(editingImage.index, url, sourceUrl)
+          onSaved={(url, sourceUrl, cropData) =>
+            replaceImage(editingImage.index, url, sourceUrl, cropData)
           }
         />
       )}
