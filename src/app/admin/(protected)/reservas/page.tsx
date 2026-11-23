@@ -99,6 +99,13 @@ export default async function AdminBookingsPage() {
             </dd>
           </div>
           <div>
+            <dt>Desconfirmar</dt>
+            <dd>
+              Vuelve la reserva a pendiente. Las fechas siguen bloqueadas y deja
+              de sumar al ingreso confirmado.
+            </dd>
+          </div>
+          <div>
             <dt>Cancelar</dt>
             <dd>
               Libera las fechas en el calendario y deja la reserva como

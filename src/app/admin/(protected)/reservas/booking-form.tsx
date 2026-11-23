@@ -177,19 +177,30 @@ export function BookingStatusButtons({
   id: string;
   status: BookingStatus;
 }) {
+  const actions: Array<{ status: BookingStatus; label: string }> =
+    status === "CONFIRMED"
+      ? [
+          { status: "PENDING", label: "Desconfirmar" },
+          { status: "CANCELLED", label: "Cancelar" },
+        ]
+      : status === "PENDING"
+        ? [
+            { status: "CONFIRMED", label: "Confirmar" },
+            { status: "CANCELLED", label: "Cancelar" },
+          ]
+        : [{ status: "CONFIRMED", label: "Confirmar" }];
+
   return (
     <span className="admin-actions">
-      {(["CONFIRMED", "CANCELLED"] as BookingStatus[])
-        .filter((next) => next !== status)
-        .map((next) => (
-          <form key={next} action={setBookingStatusAction}>
-            <input type="hidden" name="id" value={id} />
-            <input type="hidden" name="status" value={next} />
-            <button className="text-link" type="submit">
-              {next === "CONFIRMED" ? "Confirmar" : "Cancelar"}
-            </button>
-          </form>
-        ))}
+      {actions.map((action) => (
+        <form key={action.status} action={setBookingStatusAction}>
+          <input type="hidden" name="id" value={id} />
+          <input type="hidden" name="status" value={action.status} />
+          <button className="text-link" type="submit">
+            {action.label}
+          </button>
+        </form>
+      ))}
     </span>
   );
 }
