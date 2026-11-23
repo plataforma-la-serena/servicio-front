@@ -81,3 +81,25 @@ export async function sendOperatorMessageAction(
   revalidatePath(`/admin/chats/${id}`);
   return { ok: true };
 }
+
+export async function setReservationInterestAction(
+  formData: FormData,
+): Promise<void> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/admin/login");
+  }
+
+  const id = String(formData.get("id") ?? "");
+  const wantsReservation = formData.get("wantsReservation") === "true";
+
+  if (id) {
+    await apiFetch(`/chat-sessions/${id}`, {
+      method: "PATCH",
+      body: { wantsReservation },
+    });
+  }
+
+  revalidatePath("/admin/chats");
+  revalidatePath(`/admin/chats/${id}`);
+}

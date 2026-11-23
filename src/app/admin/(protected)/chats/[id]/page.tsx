@@ -5,7 +5,10 @@ import { notFound, redirect } from "next/navigation";
 import { fetchChatDetail } from "@/lib/api/endpoints";
 import { ChatComposer } from "./chat-composer";
 import { ChatScroller } from "./chat-scroller";
-import { setBotActiveAction } from "../actions";
+import {
+  setBotActiveAction,
+  setReservationInterestAction,
+} from "../actions";
 
 export const metadata: Metadata = {
   title: "Conversación",
@@ -125,17 +128,32 @@ export default async function ChatDetailPage({ params }: ChatDetailPageProps) {
               </span>
             </span>
           </div>
-          <form action={setBotActiveAction} className="wa-toggle">
-            <input type="hidden" name="id" value={session.id} />
-            <input
-              type="hidden"
-              name="botActive"
-              value={String(!session.botActive)}
-            />
-            <button type="submit" className="wa-toggle-btn">
-              {session.botActive ? "Pausar bot" : "Reactivar bot"}
-            </button>
-          </form>
+          <div className="wa-header-actions">
+            <form action={setReservationInterestAction}>
+              <input type="hidden" name="id" value={session.id} />
+              <input
+                type="hidden"
+                name="wantsReservation"
+                value={String(!session.wantsReservation)}
+              />
+              <button type="submit" className="wa-toggle-btn">
+                {session.wantsReservation
+                  ? "Quitar aviso"
+                  : "Marcar reserva"}
+              </button>
+            </form>
+            <form action={setBotActiveAction}>
+              <input type="hidden" name="id" value={session.id} />
+              <input
+                type="hidden"
+                name="botActive"
+                value={String(!session.botActive)}
+              />
+              <button type="submit" className="wa-toggle-btn">
+                {session.botActive ? "Pausar bot" : "Reactivar bot"}
+              </button>
+            </form>
+          </div>
         </header>
 
         <ChatScroller>
