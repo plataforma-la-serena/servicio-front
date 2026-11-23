@@ -5,7 +5,6 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import { useActionState } from "react";
 import type { Area } from "react-easy-crop";
 import type { AdminApartment, ActionResult } from "@/types/admin";
-import { INTERIOR_IMAGES } from "@/lib/reference-images";
 import { ImageCropper } from "./image-cropper";
 import {
   enhanceApartmentImage,
@@ -280,7 +279,7 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
             </h2>
           </div>
           <span className="section-meta">
-            {hasPhotos ? `${photos.length} fotos` : "Imágenes de referencia"}
+            {hasPhotos ? `${photos.length} fotos` : "Sin fotos"}
           </span>
         </div>
 
@@ -333,21 +332,13 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
             </div>
           ))}
 
-          {!hasPhotos &&
-            INTERIOR_IMAGES.map((image) => (
-              <div className="editor-photo" key={image.src}>
-                <Image src={image.src} alt="" fill sizes="(max-width: 900px) 50vw, 260px" />
-                <span className="editor-photo-tag">Referencia</span>
-              </div>
-            ))}
         </div>
 
         <input type="hidden" name="coverIndex" value={safeCover} />
 
         {!hasPhotos && (
           <p className="form-hint">
-            Se usarán estas imágenes de referencia hasta que subas fotos
-            propias.
+            Todavía no hay fotos. Subí una o pegá una URL.
           </p>
         )}
 

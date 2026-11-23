@@ -3,11 +3,6 @@ import { Reveal } from "./Reveal";
 
 const LINKS = [
   {
-    href: "/la-serena",
-    label: "La Serena",
-    description: "Playa, centro histórico y shopping.",
-  },
-  {
     href: "/como-reservar",
     label: "Cómo reservar",
     description: "Consulta, verificación y confirmación por WhatsApp.",

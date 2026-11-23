@@ -26,9 +26,6 @@ export function SiteFooter() {
                 <Link href="/departamentos">Departamentos</Link>
               </li>
               <li>
-                <Link href="/la-serena">La Serena</Link>
-              </li>
-              <li>
                 <Link href="/como-reservar">Cómo reservar</Link>
               </li>
               <li>
@@ -43,9 +40,6 @@ export function SiteFooter() {
               <li>La Serena, Chile</li>
               <li>Temporada {SEASON_LABEL}</li>
               <li>Atención por WhatsApp</li>
-              <li>
-                <Link href="/creditos">Créditos de imágenes</Link>
-              </li>
             </ul>
           </div>
         </div>

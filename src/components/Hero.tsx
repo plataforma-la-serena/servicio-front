@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { SEASON_LABEL } from "@/lib/season";
 import { ReserveButton } from "./ReserveButton";
 
@@ -11,16 +10,6 @@ export function Hero({ apartmentCount }: HeroProps) {
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-media" aria-hidden="true">
-        <Image
-          src="/images/hero-playa.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-        />
-      </div>
-
       <div className="shell hero-inner">
         <p className="eyebrow hero-eyebrow">
           Temporada {SEASON_LABEL} · La Serena, Chile

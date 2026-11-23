@@ -24,19 +24,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
     },
     {
-      url: `${siteUrl}/la-serena`,
-      lastModified: now,
-    },
-    {
       url: `${siteUrl}/como-reservar`,
       lastModified: now,
     },
     {
       url: `${siteUrl}/contacto`,
-      lastModified: now,
-    },
-    {
-      url: `${siteUrl}/creditos`,
       lastModified: now,
     },
     ...apartmentEntries,

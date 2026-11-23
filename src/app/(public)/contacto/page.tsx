@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { PageIntro } from "@/components/PageIntro";
 import { ReserveButton } from "@/components/ReserveButton";
 import { SEASON_LABEL } from "@/lib/season";
@@ -49,14 +48,6 @@ export default function ContactoPage() {
               <div className="contact-fact">
                 <dt>Atención</dt>
                 <dd>WhatsApp</dd>
-              </div>
-              <div className="contact-fact">
-                <dt>Imágenes</dt>
-                <dd>
-                  <Link className="text-link" href="/creditos">
-                    Ver créditos
-                  </Link>
-                </dd>
               </div>
             </dl>
           </div>

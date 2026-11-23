@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
-import { referenceInterior } from "@/lib/reference-images";
 import type { Apartment } from "@/types/apartment";
 import { ReserveButton } from "./ReserveButton";
 
@@ -13,13 +12,7 @@ interface ApartmentCardProps {
 export function ApartmentCard({ apartment, index }: ApartmentCardProps) {
   const folio = String(index + 1).padStart(2, "0");
   const detailHref = `/departamentos/${apartment.id}`;
-  const reference = referenceInterior(index);
-  const cover =
-    apartment.images[apartment.coverIndex] ?? apartment.images[0];
-  const hasPhoto = Boolean(cover);
-  const image = cover
-    ? { src: cover, alt: apartment.title }
-    : reference;
+  const cover = apartment.images[apartment.coverIndex] ?? apartment.images[0];
 
   return (
     <article className="apartment-card">
@@ -28,21 +21,20 @@ export function ApartmentCard({ apartment, index }: ApartmentCardProps) {
         className="apartment-media"
         aria-label={`Ver ${apartment.title}`}
       >
-        <Image
-          src={image.src}
-          alt={
-            hasPhoto ? image.alt : `${reference.alt} (imagen de referencia)`
-          }
-          fill
-          quality={90}
-          sizes="(max-width: 900px) 100vw, 50vw"
-        />
+        {cover ? (
+          <Image
+            src={cover}
+            alt={apartment.title}
+            fill
+            quality={90}
+            sizes="(max-width: 900px) 100vw, 50vw"
+          />
+        ) : (
+          <span className="apartment-media-empty" aria-hidden="true" />
+        )}
         <span className="apartment-folio" aria-hidden="true">
           {folio}
         </span>
-        {!hasPhoto && (
-          <span className="apartment-reference">Imagen de referencia</span>
-        )}
       </Link>
 
       <div className="apartment-body">
@@ -73,12 +65,12 @@ export function ApartmentCard({ apartment, index }: ApartmentCardProps) {
         </div>
 
         <div className="apartment-action">
-          <Link href={detailHref} className="text-link">
+          <Link className="text-link" href={detailHref}>
             Ver detalle
           </Link>
           <ReserveButton
             label="Reservar"
-            message={`Hola, quiero reservar ${apartment.title} en La Serena.`}
+            message={`Hola, quiero consultar por ${apartment.title} en La Serena.`}
           />
         </div>
       </div>

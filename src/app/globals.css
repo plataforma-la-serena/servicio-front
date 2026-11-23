@@ -157,7 +157,6 @@ h3 {
 #contenido,
 #temporada,
 #catalogo,
-#la-serena,
 #como-reservar,
 #contacto {
   scroll-margin-top: 96px;
@@ -408,36 +407,18 @@ h3 {
   padding: 96px 0 128px;
   overflow: hidden;
   color: var(--sand-light);
-}
-
-.hero-media {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.hero-media img {
-  object-fit: cover;
-  object-position: center 58%;
-}
-
-.hero-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
   background:
-    linear-gradient(
-      180deg,
-      rgba(var(--ink-rgb), 0.12) 0%,
-      rgba(var(--ink-rgb), 0.3) 42%,
-      rgba(var(--ink-rgb), 0.8) 100%
+    radial-gradient(
+      1100px 520px at 84% 6%,
+      rgba(var(--terracotta-rgb), 0.32),
+      transparent 62%
     ),
-    linear-gradient(
-      90deg,
-      rgba(var(--ink-rgb), 0.5) 0%,
-      rgba(var(--ink-rgb), 0.12) 52%,
-      transparent 78%
-    );
+    radial-gradient(
+      820px 500px at 6% 96%,
+      rgba(var(--sea-rgb), 0.5),
+      transparent 66%
+    ),
+    linear-gradient(160deg, var(--sea-deep) 0%, var(--ink) 70%);
 }
 
 .hero-inner {
@@ -584,13 +565,8 @@ h3 {
   line-height: 1.65;
 }
 
-.page-intro + .la-serena,
 .page-intro + .how-to-book {
   padding-top: 48px;
-}
-
-.page-intro + .la-serena .places {
-  margin-top: 0;
 }
 
 .catalog.page-section {
@@ -611,7 +587,7 @@ h3 {
 
 .explore-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: clamp(16px, 2.4vw, 28px);
   margin-top: 32px;
 }
@@ -766,18 +742,7 @@ h3 {
   backdrop-filter: blur(4px);
 }
 
-.apartment-reference {
-  position: absolute;
-  bottom: 14px;
-  left: 14px;
-  padding: 6px 11px;
-  background: rgba(var(--ink-rgb), 0.76);
-  border-radius: 999px;
-  color: rgba(var(--sand-light-rgb), 0.9);
-  font-size: 0.66rem;
-  letter-spacing: 0.03em;
-  backdrop-filter: blur(6px);
-}
+
 
 .apartment-body {
   display: flex;
@@ -891,150 +856,6 @@ h3 {
   margin-top: 18px;
   color: var(--muted);
   font-size: 0.72rem;
-}
-
-/* ── La Serena ─────────────────────────────────────────── */
-
-.la-serena {
-  position: relative;
-  overflow: hidden;
-  padding: 96px 0;
-  background:
-    radial-gradient(
-      1100px 460px at 88% -12%,
-      rgba(var(--sand-rgb), 0.14),
-      transparent 62%
-    ),
-    var(--sea-deep);
-  color: var(--sand-light);
-}
-
-.la-serena .section-head {
-  border-color: rgba(var(--sand-light-rgb), 0.18);
-}
-
-.la-serena .eyebrow {
-  color: rgba(var(--sand-light-rgb), 0.62);
-}
-
-.la-serena .section-title {
-  color: var(--sand-light);
-}
-
-.la-serena .section-lede {
-  color: rgba(var(--sand-light-rgb), 0.72);
-}
-
-.la-serena .section-meta {
-  background: rgba(var(--sand-light-rgb), 0.1);
-  color: rgba(var(--sand-light-rgb), 0.82);
-}
-
-.la-serena .section-note {
-  color: rgba(var(--sand-light-rgb), 0.62);
-}
-
-.la-serena .section-note a {
-  border-color: rgba(var(--sand-light-rgb), 0.4);
-}
-
-.la-serena .section-note a:hover {
-  border-color: var(--sand-light);
-  color: var(--sand-light);
-}
-
-.la-serena :focus-visible {
-  outline-color: var(--sand-light);
-}
-
-.places {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 20px;
-  margin-top: 40px;
-}
-
-.place-wrap {
-  display: flex;
-}
-
-.place-wrap:nth-child(1) {
-  grid-column: span 7;
-}
-
-.place-wrap:nth-child(2) {
-  grid-column: span 5;
-}
-
-.place-wrap:nth-child(3) {
-  grid-column: span 5;
-}
-
-.place-wrap:nth-child(4) {
-  grid-column: span 7;
-}
-
-.place {
-  position: relative;
-  flex: 1;
-  min-height: 320px;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: var(--sea);
-}
-
-.place-wrap:nth-child(1) .place,
-.place-wrap:nth-child(4) .place {
-  min-height: 380px;
-}
-
-.place img {
-  object-fit: cover;
-  transition: transform 500ms ease;
-}
-
-.place::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 34%,
-    rgba(var(--sea-deep-rgb), 0.45) 64%,
-    rgba(var(--sea-deep-rgb), 0.9) 100%
-  );
-}
-
-@media (hover: hover) {
-  .place:hover img {
-    transform: scale(1.05);
-  }
-}
-
-.place-copy {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 24px;
-}
-
-.place-name {
-  color: var(--sand-light);
-  font-size: 1.45rem;
-  font-weight: 500;
-  line-height: 1.1;
-}
-
-.place-description {
-  max-width: 34ch;
-  color: rgba(var(--sand-light-rgb), 0.78);
-  font-size: 0.88rem;
-  line-height: 1.5;
 }
 
 /* ── How to book ───────────────────────────────────────── */
@@ -1314,11 +1135,7 @@ h3 {
   object-fit: cover;
 }
 
-.gallery-caption {
-  margin-top: 14px;
-  color: var(--muted);
-  font-size: 0.8rem;
-}
+
 
 /* Availability calendar */
 .availability {
@@ -1407,71 +1224,6 @@ h3 {
   min-width: 28px;
 }
 
-/* ── Credits ───────────────────────────────────────────── */
-
-.credits {
-  padding: 72px 0 96px;
-}
-
-.credits-title {
-  margin: 16px 0 20px;
-  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
-.credits-lede {
-  max-width: 62ch;
-  margin-bottom: 40px;
-  color: var(--muted);
-  font-size: 1rem;
-}
-
-.credits-list {
-  border-top: 1px solid var(--line);
-}
-
-.credit-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 18px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.credit-title {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 500;
-  line-height: 1.2;
-}
-
-.credit-meta {
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 0.8rem;
-}
-
-.credit-links {
-  display: flex;
-  flex: 0 0 auto;
-  gap: 20px;
-}
-
-.credit-links a {
-  border-bottom: 1px solid var(--line-strong);
-  padding-bottom: 1px;
-  color: var(--sea-deep);
-  font-size: 0.8rem;
-}
-
-.credit-links a:hover {
-  border-color: var(--sea);
-  color: var(--sea);
-}
-
 .back-link {
   display: inline-block;
   margin-top: 48px;
@@ -1534,21 +1286,6 @@ h3 {
     position: static;
   }
 
-  .places {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .place-wrap:nth-child(1),
-  .place-wrap:nth-child(2),
-  .place-wrap:nth-child(3),
-  .place-wrap:nth-child(4) {
-    grid-column: span 1;
-  }
-
-  .place-wrap:nth-child(1) .place,
-  .place-wrap:nth-child(4) .place {
-    min-height: 320px;
-  }
 }
 
 @media (max-width: 900px) {
@@ -1609,7 +1346,6 @@ h3 {
   #contenido,
   #temporada,
   #catalogo,
-  #la-serena,
   #como-reservar,
   #contacto {
     scroll-margin-top: 130px;
@@ -1661,16 +1397,6 @@ h3 {
     align-self: flex-start;
   }
 
-  .places {
-    grid-template-columns: 1fr;
-  }
-
-  .place-wrap:nth-child(1) .place,
-  .place-wrap:nth-child(2) .place,
-  .place-wrap:nth-child(3) .place,
-  .place-wrap:nth-child(4) .place {
-    min-height: 270px;
-  }
 
   .gallery-grid {
     grid-template-columns: 1fr;
