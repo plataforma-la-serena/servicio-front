@@ -55,11 +55,18 @@ export function ImageCropper({
       return;
     }
 
+    // El recuadro de recorte es 4:3 y está centrado dentro del contenedor,
+    // que puede ser más ancho. Hay que usar el tamaño del recuadro, no el
+    // del contenedor completo, para que el zoom inicial sea el correcto.
+    const aspect = 4 / 3;
+    const width = Math.min(rect.width, rect.height * aspect);
+    const height = width / aspect;
+
     const initial = getInitialCropFromCroppedAreaPercentages(
       initialPercentages,
       mediaSize,
       0,
-      { width: rect.width, height: rect.height },
+      { width, height },
       1,
       3,
     );
