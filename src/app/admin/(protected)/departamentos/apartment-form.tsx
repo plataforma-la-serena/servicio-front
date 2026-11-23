@@ -5,6 +5,7 @@ import { useState, type ChangeEvent } from "react";
 import { useActionState } from "react";
 import type { AdminApartment, ActionResult } from "@/types/admin";
 import { INTERIOR_IMAGES } from "@/lib/reference-images";
+import { ImageCropper } from "./image-cropper";
 import {
   createApartmentAction,
   updateApartmentAction,
@@ -21,6 +22,10 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
   const [previews, setPreviews] = useState<string[]>([]);
   const [urlValue, setUrlValue] = useState(apartment?.images.join(", ") ?? "");
   const [coverIndex, setCoverIndex] = useState(apartment?.coverIndex ?? 0);
+  const [editingImage, setEditingImage] = useState<{
+    src: string;
+    index: number;
+  } | null>(null);
 
   const action = apartment
     ? updateApartmentAction.bind(null, apartment.id)
@@ -51,6 +56,13 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
   function handleFiles(event: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(event.target.files ?? []);
     setPreviews(files.map((file) => URL.createObjectURL(file)));
+  }
+
+  function replaceImage(index: number, url: string) {
+    const list = [...parsedImages];
+    list[index] = url;
+    setUrlValue(list.join(", "));
+    setEditingImage(null);
   }
 
   return (
@@ -218,6 +230,15 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
               >
                 {safeCover === index ? "Portada" : "Usar como portada"}
               </button>
+              {!photo.local && (
+                <button
+                  type="button"
+                  className="editor-photo-edit"
+                  onClick={() => setEditingImage({ src: photo.src, index })}
+                >
+                  Editar
+                </button>
+              )}
             </div>
           ))}
 
@@ -285,6 +306,14 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
           </div>
         </div>
       </section>
+
+      {editingImage && (
+        <ImageCropper
+          src={editingImage.src}
+          onCancel={() => setEditingImage(null)}
+          onSaved={(url) => replaceImage(editingImage.index, url)}
+        />
+      )}
     </form>
   );
 }

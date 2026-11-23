@@ -2310,6 +2310,87 @@ textarea.input {
   color: var(--sand-light);
 }
 
+.editor-photo-edit {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 9px;
+  background: rgba(var(--ink-rgb), 0.78);
+  border: 1px solid rgba(var(--sand-light-rgb), 0.25);
+  border-radius: 999px;
+  color: var(--sand-light);
+  font-size: 0.58rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.editor-photo-edit:hover {
+  background: var(--ink);
+}
+
+/* ── Recorte de fotos ───────────────────────────────────── */
+
+.crop-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(var(--ink-rgb), 0.6);
+}
+
+.crop-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(720px, 100%);
+  padding: 20px;
+  background: var(--sand-light);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 80px rgba(var(--ink-rgb), 0.35);
+}
+
+.crop-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.crop-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.crop-area {
+  position: relative;
+  width: 100%;
+  height: min(56vh, 420px);
+  overflow: hidden;
+  background: var(--ink);
+  border-radius: var(--radius);
+}
+
+.crop-zoom {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.crop-zoom input {
+  flex: 1;
+}
+
+.crop-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
 .editor-upload-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
