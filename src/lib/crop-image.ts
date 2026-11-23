@@ -5,7 +5,7 @@ export interface CropArea {
   height: number;
 }
 
-const OUTPUT_WIDTH = 1200;
+const OUTPUT_WIDTH = 1600;
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ export async function cropToJpeg(
         }
       },
       "image/jpeg",
-      0.86,
+      0.92,
     );
   });
 }

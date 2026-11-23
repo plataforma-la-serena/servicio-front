@@ -34,6 +34,7 @@ export function ApartmentCard({ apartment, index }: ApartmentCardProps) {
             hasPhoto ? image.alt : `${reference.alt} (imagen de referencia)`
           }
           fill
+          quality={90}
           sizes="(max-width: 900px) 100vw, 50vw"
         />
         <span className="apartment-folio" aria-hidden="true">

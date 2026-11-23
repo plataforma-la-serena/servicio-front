@@ -42,6 +42,7 @@ export function ApartmentGallery({ images }: ApartmentGalleryProps) {
               src={image.src}
               alt={image.alt}
               fill
+              quality={90}
               sizes="(max-width: 900px) 100vw, 60vw"
             />
           </div>
