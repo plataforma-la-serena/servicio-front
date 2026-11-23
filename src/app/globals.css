@@ -1930,6 +1930,44 @@ h3 {
   letter-spacing: -0.02em;
 }
 
+.admin-help {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.admin-help-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 40px;
+  margin: 0;
+}
+
+.admin-help-list > div {
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.admin-help-list dt {
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.admin-help-list dd {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .admin-help-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
