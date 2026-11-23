@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { fetchMetrics } from "@/lib/api/endpoints";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, formatShortDate } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Resumen",
@@ -87,7 +87,8 @@ export default async function AdminSummaryPage() {
                   {booking.apartment.title}
                 </span>
                 <span className="admin-list-meta">
-                  {booking.startDate} → {booking.endDate}
+                  {formatShortDate(booking.startDate)} →{" "}
+                  {formatShortDate(booking.endDate)}
                 </span>
                 <span className="admin-list-meta">{booking.customerPhone}</span>
                 <span className={`status status-${booking.status}`}>

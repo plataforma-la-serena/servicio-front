@@ -1,5 +1,5 @@
 import "server-only";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, formatShortDate } from "@/lib/format";
 import type {
   AdminApartment,
   BookingRow,
@@ -66,6 +66,22 @@ export function updateBookingStatus(id: string, status: BookingStatus) {
   });
 }
 
+export interface BookingInput {
+  apartmentId: string;
+  startDate: string;
+  endDate: string;
+  customerPhone: string;
+  notes?: string;
+  status?: BookingStatus;
+}
+
+export function updateBooking(id: string, input: Partial<BookingInput>) {
+  return apiFetch<BookingRow>(`/bookings/${id}`, {
+    method: "PATCH",
+    body: input,
+  });
+}
+
 export function deleteBooking(id: string) {
   return apiFetch<{ ok: true }>(`/bookings/${id}`, { method: "DELETE" });
 }
@@ -77,7 +93,7 @@ export function formatBookingRange(start: string, end: string): string {
       (new Date(end).getTime() - new Date(start).getTime()) / 86_400_000,
     ),
   );
-  return `${start} → ${end} · ${nights} noches`;
+  return `${formatShortDate(start)} → ${formatShortDate(end)} · ${nights} noches`;
 }
 
 export function bookingTotal(

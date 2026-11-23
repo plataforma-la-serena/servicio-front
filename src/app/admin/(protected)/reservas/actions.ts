@@ -7,6 +7,7 @@ import { currentSeason } from "@/lib/availability";
 import {
   createBooking,
   deleteBooking,
+  updateBooking,
   updateBookingStatus,
 } from "@/lib/api/mutations";
 import type { ActionResult, BookingStatus } from "@/types/admin";
@@ -111,4 +112,62 @@ export async function deleteBookingAction(formData: FormData): Promise<void> {
   }
 
   refresh();
+}
+
+export async function updateBookingAction(
+  id: string,
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/admin/login");
+  }
+
+  const apartmentId = String(formData.get("apartmentId") ?? "");
+  const startDate = String(formData.get("startDate") ?? "");
+  const endDate = String(formData.get("endDate") ?? "");
+  const customerPhone = String(formData.get("customerPhone") ?? "")
+    .trim()
+    .replace(/[^0-9]/g, "");
+  const notes = String(formData.get("notes") ?? "").trim();
+  const statusRaw = String(formData.get("status") ?? "");
+
+  if (!apartmentId || !startDate || !endDate) {
+    return fail("Completá departamento y fechas.");
+  }
+  if (!/^[0-9]{8,15}$/.test(customerPhone)) {
+    return fail("El teléfono debe tener entre 8 y 15 dígitos.");
+  }
+  if (startDate >= endDate) {
+    return fail("La fecha de inicio debe ser anterior a la de fin.");
+  }
+
+  const season = currentSeason();
+  const seasonFrom = season.from.slice(0, 10);
+  const seasonTo = season.to.slice(0, 10);
+
+  if (startDate < seasonFrom || endDate > seasonTo) {
+    return fail("Las reservas van del 15/12 al 15/03.");
+  }
+
+  const result = await updateBooking(id, {
+    apartmentId,
+    startDate,
+    endDate,
+    customerPhone,
+    notes,
+    status: isStatus(statusRaw) ? statusRaw : undefined,
+  });
+
+  if (!result.ok) {
+    return fail(
+      result.status === 409
+        ? "El departamento no está disponible en esas fechas."
+        : "No se pudo actualizar la reserva.",
+    );
+  }
+
+  refresh();
+  return { ok: true };
 }

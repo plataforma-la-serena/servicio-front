@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { bookingTotal } from "@/lib/api/mutations";
 import { fetchApartments, fetchBookings } from "@/lib/api/endpoints";
-import { formatPrice } from "@/lib/format";
-import type { BookingStatus } from "@/types/admin";
-import { BookingForm, BookingStatusButtons } from "./booking-form";
-import { deleteBookingAction } from "./actions";
+import { BookingForm } from "./booking-form";
+import { BookingRowAdmin } from "./booking-row";
 
 export const metadata: Metadata = {
   title: "Reservas",
   robots: { index: false, follow: false },
 };
 
-const STATUS_LABEL: Record<BookingStatus, string> = {
-  PENDING: "Pendiente",
-  CONFIRMED: "Confirmada",
-  CANCELLED: "Cancelada",
-};
 
 export default async function AdminBookingsPage() {
   const [bookingsResult, apartmentsResult] = await Promise.all([
@@ -81,36 +73,14 @@ export default async function AdminBookingsPage() {
         ) : (
           <ul className="admin-list">
             {bookings.map((booking) => (
-              <li key={booking.id} className="admin-list-row admin-list-row-wrap">
-                <span className="admin-list-title">
-                  {booking.apartment?.title ?? booking.apartmentId}
-                </span>
-                <span className="admin-list-meta">
-                  {booking.startDate} → {booking.endDate}
-                </span>
-                <span className="admin-list-meta">{booking.customerPhone}</span>
-                <span className="admin-list-meta">
-                  {booking.apartment
-                    ? bookingTotal(
-                        booking.startDate,
-                        booking.endDate,
-                        booking.apartment.pricePerNight,
-                      )
-                    : formatPrice(0)}
-                </span>
-                <span className={`status status-${booking.status}`}>
-                  {STATUS_LABEL[booking.status]}
-                </span>
-                <span className="admin-actions">
-                  <BookingStatusButtons id={booking.id} status={booking.status} />
-                  <form action={deleteBookingAction}>
-                    <input type="hidden" name="id" value={booking.id} />
-                    <button className="text-link text-link-danger" type="submit">
-                      Eliminar
-                    </button>
-                  </form>
-                </span>
-              </li>
+              <BookingRowAdmin
+                key={booking.id}
+                booking={booking}
+                apartments={apartments.map((item) => ({
+                  id: item.id,
+                  title: item.title,
+                }))}
+              />
             ))}
           </ul>
         )}
