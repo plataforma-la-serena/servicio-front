@@ -11,6 +11,7 @@ interface ApiApartment {
   capacity: number;
   features?: string[];
   images?: string[];
+  coverIndex?: number;
   isActive: boolean;
 }
 
@@ -28,6 +29,7 @@ function toApartment(item: ApiApartment): Apartment {
     capacity: item.capacity,
     features: item.features ?? [],
     images: item.images ?? [],
+    coverIndex: item.coverIndex ?? 0,
     isActive: item.isActive,
   };
 }

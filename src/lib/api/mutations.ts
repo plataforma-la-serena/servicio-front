@@ -14,6 +14,7 @@ export interface ApartmentInput {
   capacity: number;
   features: string[];
   images: string[];
+  coverIndex: number;
   isActive: boolean;
 }
 

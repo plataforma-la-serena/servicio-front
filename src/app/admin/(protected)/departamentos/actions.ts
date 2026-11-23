@@ -63,6 +63,7 @@ function readInput(formData: FormData): ApartmentInput | null {
   const description = String(formData.get("description") ?? "").trim();
   const pricePerNight = Number(formData.get("pricePerNight"));
   const capacity = Number(formData.get("capacity"));
+  const coverIndex = Number(formData.get("coverIndex") ?? 0);
 
   if (
     title.length < 2 ||
@@ -82,6 +83,8 @@ function readInput(formData: FormData): ApartmentInput | null {
     capacity,
     features: splitList(formData.get("features")),
     images: splitList(formData.get("images")),
+    coverIndex:
+      Number.isInteger(coverIndex) && coverIndex >= 0 ? coverIndex : 0,
     isActive: formData.get("isActive") === "on",
   };
 }

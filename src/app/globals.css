@@ -2281,6 +2281,35 @@ textarea.input {
   letter-spacing: 0.08em;
 }
 
+.editor-photo.is-cover {
+  outline: 2px solid var(--sea);
+  outline-offset: -2px;
+}
+
+.editor-cover {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 4px 9px;
+  background: rgba(var(--sand-light-rgb), 0.94);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 0.58rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.editor-cover:hover {
+  background: var(--sand-light);
+}
+
+.editor-photo.is-cover .editor-cover {
+  background: var(--sea);
+  border-color: var(--sea);
+  color: var(--sand-light);
+}
+
 .editor-upload-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -32,6 +32,7 @@ export interface AdminApartment {
   capacity: number;
   features: string[];
   images: string[];
+  coverIndex: number;
   isActive: boolean;
 }
 

@@ -19,6 +19,8 @@ interface ApartmentFormProps {
 
 export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
   const [previews, setPreviews] = useState<string[]>([]);
+  const [urlValue, setUrlValue] = useState(apartment?.images.join(", ") ?? "");
+  const [coverIndex, setCoverIndex] = useState(apartment?.coverIndex ?? 0);
 
   const action = apartment
     ? updateApartmentAction.bind(null, apartment.id)
@@ -35,8 +37,16 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
     INITIAL,
   );
 
-  const savedImages = apartment?.images ?? [];
-  const hasPhotos = savedImages.length > 0 || previews.length > 0;
+  const parsedImages = urlValue
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const photos = [
+    ...parsedImages.map((src) => ({ src, local: false })),
+    ...previews.map((src) => ({ src, local: true })),
+  ];
+  const hasPhotos = photos.length > 0;
+  const safeCover = hasPhotos ? Math.min(coverIndex, photos.length - 1) : 0;
 
   function handleFiles(event: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(event.target.files ?? []);
@@ -177,22 +187,37 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
             </h2>
           </div>
           <span className="section-meta">
-            {hasPhotos ? `${savedImages.length + previews.length} fotos` : "Imágenes de referencia"}
+            {hasPhotos ? `${photos.length} fotos` : "Imágenes de referencia"}
           </span>
         </div>
 
         <div className="editor-photo-grid">
-          {savedImages.map((src) => (
-            <div className="editor-photo" key={src}>
-              <Image src={src} alt="" fill sizes="(max-width: 900px) 50vw, 260px" />
-            </div>
-          ))}
-
-          {previews.map((src) => (
-            <div className="editor-photo" key={src}>
-              {/* Vista previa local antes de guardar */}
-              <img className="editor-photo-img" src={src} alt="" />
-              <span className="editor-photo-tag">Nueva</span>
+          {photos.map((photo, index) => (
+            <div
+              className={`editor-photo${safeCover === index ? " is-cover" : ""}`}
+              key={`${photo.src}-${index}`}
+            >
+              {photo.local ? (
+                <img className="editor-photo-img" src={photo.src} alt="" />
+              ) : (
+                <Image
+                  src={photo.src}
+                  alt=""
+                  fill
+                  sizes="(max-width: 900px) 50vw, 260px"
+                />
+              )}
+              {photo.local && (
+                <span className="editor-photo-tag">Nueva</span>
+              )}
+              <button
+                type="button"
+                className="editor-cover"
+                onClick={() => setCoverIndex(index)}
+                aria-pressed={safeCover === index}
+              >
+                {safeCover === index ? "Portada" : "Usar como portada"}
+              </button>
             </div>
           ))}
 
@@ -205,10 +230,19 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
             ))}
         </div>
 
+        <input type="hidden" name="coverIndex" value={safeCover} />
+
         {!hasPhotos && (
           <p className="form-hint">
             Se usarán estas imágenes de referencia hasta que subas fotos
             propias.
+          </p>
+        )}
+
+        {hasPhotos && (
+          <p className="form-hint">
+            Tocá “Usar como portada” en la foto que querés mostrar en el
+            catálogo. La portada también es la primera foto que envía el bot.
           </p>
         )}
 
@@ -242,7 +276,8 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
               type="text"
               inputMode="url"
               placeholder="https://ejemplo.com/living.jpg"
-              defaultValue={apartment?.images.join(", ")}
+              value={urlValue}
+              onChange={(event) => setUrlValue(event.target.value)}
             />
             <p className="form-hint">
               Enlaces directos, separados por coma. Si no tenés, dejalo vacío.

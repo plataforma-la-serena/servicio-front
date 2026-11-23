@@ -14,9 +14,11 @@ export function ApartmentCard({ apartment, index }: ApartmentCardProps) {
   const folio = String(index + 1).padStart(2, "0");
   const detailHref = `/departamentos/${apartment.id}`;
   const reference = referenceInterior(index);
-  const hasPhoto = apartment.images.length > 0;
-  const image = hasPhoto
-    ? { src: apartment.images[0], alt: apartment.title }
+  const cover =
+    apartment.images[apartment.coverIndex] ?? apartment.images[0];
+  const hasPhoto = Boolean(cover);
+  const image = cover
+    ? { src: cover, alt: apartment.title }
     : reference;
 
   return (

@@ -14,6 +14,7 @@ export const sampleApartments: Apartment[] = [
     capacity: 4,
     features: ["2 dormitorios", "Cocina equipada", "Balcón", "Wi-Fi"],
     images: [],
+    coverIndex: 0,
     isActive: true,
   },
   {
@@ -25,6 +26,7 @@ export const sampleApartments: Apartment[] = [
     capacity: 6,
     features: ["3 dormitorios", "Living comedor", "Cocina equipada", "Wi-Fi"],
     images: [],
+    coverIndex: 0,
     isActive: true,
   },
   {
@@ -36,6 +38,7 @@ export const sampleApartments: Apartment[] = [
     capacity: 2,
     features: ["1 dormitorio", "Cocina integrada", "Baño completo", "Wi-Fi"],
     images: [],
+    coverIndex: 0,
     isActive: true,
   },
 ];

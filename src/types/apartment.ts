@@ -6,5 +6,6 @@ export interface Apartment {
   capacity: number;
   features: string[];
   images: string[];
+  coverIndex: number;
   isActive: boolean;
 }
