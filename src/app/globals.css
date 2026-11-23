@@ -1380,6 +1380,11 @@ h3 {
   color: var(--sand-light);
 }
 
+.day-unavailable {
+  background: var(--oat);
+  color: var(--muted);
+}
+
 .availability-legend {
   display: flex;
   flex-wrap: wrap;

@@ -6,7 +6,6 @@ import {
   seasonWindow,
   type AvailabilityRange,
 } from "@/lib/availability";
-
 const WEEKDAYS = ["L", "M", "X", "J", "V", "S", "D"] as const;
 
 interface AvailabilityCalendarProps {
@@ -50,6 +49,11 @@ export async function AvailabilityCalendar({
   }
 
   const occupied = occupiedDates(ranges);
+  const season = seasonWindow();
+  const seasonFrom = season.from.slice(0, 10);
+  const seasonTo = season.to.slice(0, 10);
+  const now = new Date();
+  const today = isoDate(now.getFullYear(), now.getMonth(), now.getDate());
 
   return (
     <section className="availability" aria-labelledby="availability-title">
@@ -77,13 +81,21 @@ export async function AvailabilityCalendar({
 
                 const date = isoDate(month.year, month.month, day);
                 const isOccupied = occupied.has(date);
+                const isBookable =
+                  date >= seasonFrom && date <= seasonTo && date >= today;
+                const className = isOccupied
+                  ? "day day-occupied"
+                  : isBookable
+                    ? "day"
+                    : "day day-unavailable";
+                const label = isOccupied
+                  ? "Reservado"
+                  : isBookable
+                    ? "Disponible"
+                    : "No reservable";
 
                 return (
-                  <span
-                    key={date}
-                    className={isOccupied ? "day day-occupied" : "day"}
-                    title={isOccupied ? "Ocupado" : "Disponible"}
-                  >
+                  <span key={date} className={className} title={label}>
                     {day}
                   </span>
                 );
@@ -94,7 +106,8 @@ export async function AvailabilityCalendar({
       </div>
 
       <p className="availability-legend">
-        <span className="day day-occupied">00</span> ocupado ·{" "}
+        <span className="day day-occupied">00</span> reservado ·{" "}
+        <span className="day day-unavailable">00</span> no reservable ·{" "}
         <span className="day">00</span> disponible. La disponibilidad se
         confirma por WhatsApp.
       </p>
