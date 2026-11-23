@@ -14,6 +14,7 @@ import {
 } from "./crop-actions";
 import {
   createApartmentAction,
+  saveApartmentImages,
   updateApartmentAction,
 } from "./actions";
 
@@ -106,6 +107,16 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
       [url]: { sourceUrl, cropData },
     }));
     setEditingImage(null);
+
+    if (apartment) {
+      void saveApartmentImages(apartment.id, list, safeCover).then((result) => {
+        if (!result.ok) {
+          setEnhanceError(
+            result.error ?? "No se pudieron guardar los cambios en las fotos.",
+          );
+        }
+      });
+    }
   }
 
   function editPhoto(photo: { src: string }, index: number) {

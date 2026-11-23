@@ -190,3 +190,22 @@ export async function toggleActiveAction(formData: FormData): Promise<void> {
 
   refresh();
 }
+
+export async function saveApartmentImages(
+  id: string,
+  images: string[],
+  coverIndex: number,
+): Promise<ActionResult> {
+  const session = await getSession();
+  if (!session) {
+    return { ok: false, error: "La sesión expiró. Volvé a iniciar sesión." };
+  }
+
+  const result = await updateApartment(id, { images, coverIndex });
+  if (!result.ok) {
+    return { ok: false, error: "No se pudieron guardar las fotos." };
+  }
+
+  refresh();
+  return { ok: true };
+}
