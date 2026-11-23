@@ -103,3 +103,25 @@ export async function setReservationInterestAction(
   revalidatePath("/admin/chats");
   revalidatePath(`/admin/chats/${id}`);
 }
+
+export async function setHumanInterestAction(
+  formData: FormData,
+): Promise<void> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/admin/login");
+  }
+
+  const id = String(formData.get("id") ?? "");
+  const wantsHuman = formData.get("wantsHuman") === "true";
+
+  if (id) {
+    await apiFetch(`/chat-sessions/${id}`, {
+      method: "PATCH",
+      body: { wantsHuman },
+    });
+  }
+
+  revalidatePath("/admin/chats");
+  revalidatePath(`/admin/chats/${id}`);
+}

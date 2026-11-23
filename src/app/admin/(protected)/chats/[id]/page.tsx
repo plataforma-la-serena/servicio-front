@@ -7,6 +7,7 @@ import { ChatComposer } from "./chat-composer";
 import { ChatScroller } from "./chat-scroller";
 import {
   setBotActiveAction,
+  setHumanInterestAction,
   setReservationInterestAction,
 } from "../actions";
 
@@ -113,6 +114,13 @@ export default async function ChatDetailPage({ params }: ChatDetailPageProps) {
                   aria-label="Quiere reservar"
                 />
               )}
+              {session.wantsHuman && (
+                <span
+                  className="wa-human-dot"
+                  title="Pide atención humana"
+                  aria-label="Pide atención humana"
+                />
+              )}
             </strong>
             <span className="wa-subline">
               {session.customerName && (
@@ -129,6 +137,19 @@ export default async function ChatDetailPage({ params }: ChatDetailPageProps) {
             </span>
           </div>
           <div className="wa-header-actions">
+            <form action={setHumanInterestAction}>
+              <input type="hidden" name="id" value={session.id} />
+              <input
+                type="hidden"
+                name="wantsHuman"
+                value={String(!session.wantsHuman)}
+              />
+              <button type="submit" className="wa-toggle-btn">
+                {session.wantsHuman
+                  ? "Quitar aviso humano"
+                  : "Marcar humano"}
+              </button>
+            </form>
             <form action={setReservationInterestAction}>
               <input type="hidden" name="id" value={session.id} />
               <input

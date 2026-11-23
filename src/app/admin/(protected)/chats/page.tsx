@@ -52,6 +52,13 @@ export default async function AdminChatsPage() {
                       aria-label="Quiere reservar"
                     />
                   )}
+                  {session.wantsHuman && (
+                    <span
+                      className="chat-human-dot"
+                      title="Pide atención humana"
+                      aria-label="Pide atención humana"
+                    />
+                  )}
                   <span className="chat-contact-copy">
                     <Link
                       href={`/admin/chats/${session.id}`}
