@@ -5,5 +5,5 @@ const clp = new Intl.NumberFormat("es-CL", {
 });
 
 export function formatPrice(value: number): string {
-  return clp.format(value);
+  return `${clp.format(value)} CLP`;
 }
