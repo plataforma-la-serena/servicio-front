@@ -3,11 +3,9 @@ import { Fragment } from "react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { fetchChatDetail } from "@/lib/api/endpoints";
+import { ChatComposer } from "./chat-composer";
 import { ChatScroller } from "./chat-scroller";
-import {
-  sendOperatorMessageAction,
-  setBotActiveAction,
-} from "../actions";
+import { setBotActiveAction } from "../actions";
 
 export const metadata: Metadata = {
   title: "Conversación",
@@ -116,7 +114,7 @@ export default async function ChatDetailPage({ params }: ChatDetailPageProps) {
             <input
               type="hidden"
               name="botActive"
-              value={String(session.botActive)}
+              value={String(!session.botActive)}
             />
             <button type="submit" className="wa-toggle-btn">
               {session.botActive ? "Pausar bot" : "Reactivar bot"}
@@ -151,32 +149,7 @@ export default async function ChatDetailPage({ params }: ChatDetailPageProps) {
           )}
         </ChatScroller>
 
-        <form action={sendOperatorMessageAction} className="wa-composer">
-          <input type="hidden" name="id" value={session.id} />
-          <div className="wa-composer-row">
-            <textarea
-              className="wa-input"
-              id="reply-content"
-              name="content"
-              rows={1}
-              maxLength={4000}
-              placeholder="Escribí una nota interna…"
-              aria-label="Nota interna"
-              required
-            />
-            <button
-              className="wa-send"
-              type="submit"
-              aria-label="Guardar nota"
-            >
-              ➤
-            </button>
-          </div>
-          <p className="wa-composer-note">
-            Nota interna: queda registrada en la conversación, no se envía al
-            cliente.
-          </p>
-        </form>
+        <ChatComposer id={session.id} phone={session.phoneNumber} />
       </section>
     </div>
   );
