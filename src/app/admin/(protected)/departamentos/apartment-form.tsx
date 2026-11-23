@@ -7,7 +7,11 @@ import type { Area } from "react-easy-crop";
 import type { AdminApartment, ActionResult } from "@/types/admin";
 import { INTERIOR_IMAGES } from "@/lib/reference-images";
 import { ImageCropper } from "./image-cropper";
-import { resolveImageSources, type CropMeta } from "./crop-actions";
+import {
+  enhanceApartmentImage,
+  resolveImageSources,
+  type CropMeta,
+} from "./crop-actions";
 import {
   createApartmentAction,
   updateApartmentAction,
@@ -25,6 +29,8 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
   const [urlValue, setUrlValue] = useState(apartment?.images.join(", ") ?? "");
   const [coverIndex, setCoverIndex] = useState(apartment?.coverIndex ?? 0);
   const [sources, setSources] = useState<Record<string, CropMeta>>({});
+  const [enhancing, setEnhancing] = useState<string | null>(null);
+  const [enhanceError, setEnhanceError] = useState<string | null>(null);
   const [editingImage, setEditingImage] = useState<{
     src: string;
     sourceUrl: string;
@@ -111,6 +117,39 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
       index,
       initialPercentages: (meta?.cropData as Area | null) ?? null,
     });
+  }
+
+  async function enhancePhoto(photo: { src: string }, index: number) {
+    if (enhancing) {
+      return;
+    }
+
+    const meta = sources[photo.src];
+    const formData = new FormData();
+    formData.append("src", photo.src);
+    formData.append("sourceUrl", meta?.sourceUrl ?? photo.src);
+    if (meta?.cropData) {
+      formData.append("cropData", JSON.stringify(meta.cropData));
+    }
+
+    setEnhancing(photo.src);
+    setEnhanceError(null);
+
+    try {
+      const result = await enhanceApartmentImage(formData);
+      if (!result.ok) {
+        setEnhanceError(result.error);
+        return;
+      }
+      replaceImage(
+        index,
+        result.url,
+        result.sourceUrl,
+        (result.cropData as Area | null) ?? null,
+      );
+    } finally {
+      setEnhancing(null);
+    }
   }
 
   return (
@@ -287,6 +326,16 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
                   Editar
                 </button>
               )}
+              {!photo.local && (
+                <button
+                  type="button"
+                  className="editor-photo-enhance"
+                  onClick={() => enhancePhoto(photo, index)}
+                  disabled={Boolean(enhancing)}
+                >
+                  {enhancing === photo.src ? "Mejorando…" : "✦ Mejorar"}
+                </button>
+              )}
             </div>
           ))}
 
@@ -312,6 +361,12 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
           <p className="form-hint">
             Tocá “Usar como portada” en la foto que querés mostrar en el
             catálogo. La portada también es la primera foto que envía el bot.
+          </p>
+        )}
+
+        {enhanceError && (
+          <p className="form-error" role="alert">
+            {enhanceError}
           </p>
         )}
 
