@@ -1984,6 +1984,16 @@ h3 {
   align-items: start;
 }
 
+.admin-list-row.chat-row {
+  grid-template-columns: minmax(140px, 1fr) auto minmax(0, 2fr) auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.chat-row .admin-list-title {
+  white-space: nowrap;
+}
+
 .admin-folio {
   font-family: var(--font-display);
   font-size: 1.5rem;
@@ -2621,5 +2631,15 @@ textarea.input {
     border: 1px solid var(--line);
     border-radius: 999px;
     overflow-x: auto;
+  }
+
+  .admin-list-row.chat-row {
+    grid-template-columns: 1fr auto;
+    row-gap: 8px;
+  }
+
+  .chat-row .chat-preview {
+    grid-column: 1 / -1;
+    max-width: none;
   }
 }

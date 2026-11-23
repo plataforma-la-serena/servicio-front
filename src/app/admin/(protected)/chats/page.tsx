@@ -43,7 +43,7 @@ export default async function AdminChatsPage() {
             const last = session.messages[0];
 
             return (
-              <li key={session.id} className="admin-list-row admin-list-row-wrap">
+              <li key={session.id} className="admin-list-row chat-row">
                 <span className="admin-list-title">
                   <Link
                     href={`/admin/chats/${session.id}`}
