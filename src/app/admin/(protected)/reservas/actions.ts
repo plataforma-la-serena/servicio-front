@@ -19,6 +19,8 @@ function fail(error: string): ActionResult {
 function refresh(): void {
   revalidatePath("/admin/reservas");
   revalidatePath("/admin");
+  // La disponibilidad pública también depende de las reservas.
+  revalidatePath("/", "layout");
 }
 
 function isStatus(value: string): value is BookingStatus {
@@ -37,7 +39,9 @@ export async function createBookingAction(
   const apartmentId = String(formData.get("apartmentId") ?? "");
   const startDate = String(formData.get("startDate") ?? "");
   const endDate = String(formData.get("endDate") ?? "");
-  const customerPhone = String(formData.get("customerPhone") ?? "").trim();
+  const customerPhone = String(formData.get("customerPhone") ?? "")
+    .trim()
+    .replace(/[^0-9]/g, "");
   const notes = String(formData.get("notes") ?? "").trim();
 
   if (!apartmentId || !startDate || !endDate) {

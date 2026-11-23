@@ -2119,6 +2119,14 @@ textarea.input {
   font-size: 0.85rem;
 }
 
+.form-success {
+  padding: 12px;
+  border: 1px solid var(--sea);
+  border-radius: 10px;
+  color: var(--sea-deep);
+  font-size: 0.85rem;
+}
+
 /* ── Editor de departamento ─────────────────────────────── */
 
 .apartment-editor {

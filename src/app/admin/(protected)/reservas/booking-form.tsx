@@ -46,10 +46,13 @@ export function BookingForm({ apartments }: BookingFormProps) {
             id="bk-phone"
             name="customerPhone"
             inputMode="tel"
-            pattern="^\+?[0-9]{8,15}$"
-            placeholder="56912345678"
+            pattern="^[+0-9()\-\s]{8,20}$"
+            placeholder="+54 9 261 336 8554"
             required
           />
+          <p className="form-hint">
+            Puede incluir +, espacios o guiones. Se guardan solo los números.
+          </p>
         </div>
       </div>
 
@@ -94,6 +97,12 @@ export function BookingForm({ apartments }: BookingFormProps) {
       {state.error && (
         <p className="form-error" role="alert">
           {state.error}
+        </p>
+      )}
+
+      {state.ok && (
+        <p className="form-success" role="status">
+          Reserva creada. Ya figura en la lista y en la disponibilidad.
         </p>
       )}
 

@@ -47,6 +47,12 @@ export default async function AdminBookingsPage() {
         </span>
       </div>
 
+      <p className="section-lede">
+        Las reservas bloquean las fechas en la disponibilidad pública de cada
+        departamento y actualizan los contadores del resumen. Son internas: no
+        aparecen en el menú del sitio.
+      </p>
+
       <section aria-labelledby="new-booking-title" className="admin-block">
         <h2 id="new-booking-title" className="admin-block-title">
           Nueva reserva
