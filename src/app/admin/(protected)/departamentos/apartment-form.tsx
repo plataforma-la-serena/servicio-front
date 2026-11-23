@@ -19,6 +19,7 @@ import {
 } from "./actions";
 
 const INITIAL: ActionResult = { ok: false };
+const AI_UPSCALE_ENABLED = process.env.NEXT_PUBLIC_AI_UPSCALE === "true";
 
 interface ApartmentFormProps {
   apartment?: AdminApartment;
@@ -337,7 +338,7 @@ export function ApartmentForm({ apartment, onSuccess }: ApartmentFormProps) {
                   Editar
                 </button>
               )}
-              {!photo.local && (
+              {AI_UPSCALE_ENABLED && !photo.local && (
                 <button
                   type="button"
                   className="editor-photo-enhance"
