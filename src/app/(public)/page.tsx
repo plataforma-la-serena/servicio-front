@@ -19,7 +19,7 @@ function pickRandom<T>(items: T[], count: number): T[] {
 
 export default async function HomePage() {
   const { apartments, isSample } = await getApartments();
-  const featured = pickRandom(apartments, 3);
+  const featured = pickRandom(apartments, 2);
 
   return (
     <>
