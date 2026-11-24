@@ -364,18 +364,18 @@ h3 {
 
 .brand-logo {
   display: block;
-  width: 42px;
+  width: 72px;
   height: auto;
   flex: 0 0 auto;
 }
 
 .brand-logo--footer {
-  width: 52px;
+  width: 80px;
   filter: invert(1);
 }
 
 .brand-logo--admin {
-  width: 30px;
+  width: 40px;
 }
 
 .brand-stacked {

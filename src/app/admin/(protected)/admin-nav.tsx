@@ -33,8 +33,8 @@ export function AdminNav({ email }: AdminNavProps) {
             src="/logo-alquileres-4-esquinas.svg"
             alt=""
             className="brand-logo brand-logo--admin"
-            width={30}
-            height={17}
+            width={40}
+            height={22}
           />
           <span>Alquileres 4 Esquinas</span>
           <span className="admin-tag">Panel</span>
