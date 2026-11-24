@@ -5,8 +5,22 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <Link href="/" className="brand" aria-label="La Serena, inicio">
-          <span>La Serena</span>
+        <Link
+          href="/"
+          className="brand brand-lockup"
+          aria-label="Alquileres 4 Esquinas, inicio"
+        >
+          <img
+            src="/logo-alquileres-4-esquinas.svg"
+            alt=""
+            className="brand-logo"
+            width={42}
+            height={24}
+          />
+          <span className="brand-copy">
+            <span className="brand-name">Alquileres 4 Esquinas</span>
+            <span className="brand-place">La Serena</span>
+          </span>
         </Link>
 
         <nav className="site-nav" aria-label="Navegación principal">

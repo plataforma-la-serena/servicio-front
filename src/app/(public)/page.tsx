@@ -4,6 +4,8 @@ import { Hero } from "@/components/Hero";
 import { SeasonBand } from "@/components/SeasonBand";
 import { getApartments } from "@/lib/catalog";
 
+export const dynamic = "force-dynamic";
+
 function pickRandom<T>(items: T[], count: number): T[] {
   const copy = [...items];
 

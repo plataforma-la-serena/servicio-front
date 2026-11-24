@@ -30,20 +30,21 @@ const epilogue = localFont({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
+  applicationName: "Alquileres 4 Esquinas",
   metadataBase: new URL(siteUrl),
   title: {
-    default: "La Serena — Departamentos temporarios",
-    template: "%s — La Serena",
+    default: "Alquileres 4 Esquinas — Departamentos temporarios en La Serena",
+    template: "%s — Alquileres 4 Esquinas",
   },
   description:
-    "Departamentos amoblados en La Serena para la temporada de verano. Consultas y reservas por WhatsApp.",
+    "Alquileres 4 Esquinas: departamentos amoblados en La Serena para la temporada de verano. Consultas y reservas por WhatsApp.",
   other: {
     "supported-color-schemes": "light",
   },
   openGraph: {
-    title: "La Serena — Departamentos temporarios",
+    title: "Alquileres 4 Esquinas — Departamentos temporarios en La Serena",
     description:
-      "Departamentos amoblados en La Serena para la temporada de verano.",
+      "Alquileres 4 Esquinas: departamentos amoblados en La Serena para la temporada de verano.",
     locale: "es_CL",
     type: "website",
   },

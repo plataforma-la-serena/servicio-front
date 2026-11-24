@@ -352,6 +352,52 @@ h3 {
   letter-spacing: -0.02em;
 }
 
+.brand-lockup {
+  align-items: center;
+}
+
+.brand-copy {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand-logo {
+  display: block;
+  width: 42px;
+  height: auto;
+  flex: 0 0 auto;
+}
+
+.brand-logo--footer {
+  width: 52px;
+  filter: invert(1);
+}
+
+.brand-logo--admin {
+  width: 30px;
+}
+
+.brand-stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.brand-name {
+  font-size: 1.12rem;
+  line-height: 1.05;
+}
+
+.brand-place {
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
 .brand-mark {
   display: inline-block;
   width: 11px;
@@ -1568,6 +1614,10 @@ h3 {
   -webkit-backdrop-filter: blur(12px);
 }
 
+.admin-header .brand {
+  font-size: 1.05rem;
+}
+
 .admin-header-inner {
   display: flex;
   align-items: center;
@@ -2730,7 +2780,11 @@ textarea.input {
     grid-template-columns: 1fr;
   }
 
-  .admin-header-inner {
+  .admin-header .brand {
+  font-size: 1.05rem;
+}
+
+.admin-header-inner {
     flex-wrap: wrap;
     gap: 12px 16px;
     padding-top: 12px;

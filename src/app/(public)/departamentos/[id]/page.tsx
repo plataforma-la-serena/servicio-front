@@ -4,17 +4,14 @@ import { notFound } from "next/navigation";
 import { ApartmentGallery } from "@/components/ApartmentGallery";
 import { AvailabilityCalendar } from "@/components/AvailabilityCalendar";
 import { ReserveButton } from "@/components/ReserveButton";
-import { getApartmentById, getApartments } from "@/lib/catalog";
+import { getApartmentById } from "@/lib/catalog";
 import { formatPrice } from "@/lib/format";
 import { SEASON_LABEL } from "@/lib/season";
 
+export const dynamic = "force-dynamic";
+
 interface ApartmentPageProps {
   params: Promise<{ id: string }>;
-}
-
-export async function generateStaticParams() {
-  const { apartments } = await getApartments();
-  return apartments.map((apartment) => ({ id: apartment.id }));
 }
 
 export async function generateMetadata({

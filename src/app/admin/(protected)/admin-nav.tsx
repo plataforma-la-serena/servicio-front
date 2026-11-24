@@ -28,9 +28,15 @@ export function AdminNav({ email }: AdminNavProps) {
   return (
     <header className="admin-header">
       <div className="shell admin-header-inner">
-        <Link href="/admin" className="brand" aria-label="La Serena, panel">
-          <span className="brand-mark" aria-hidden="true" />
-          <span>La Serena</span>
+        <Link href="/admin" className="brand" aria-label="Alquileres 4 Esquinas, panel">
+          <img
+            src="/logo-alquileres-4-esquinas.svg"
+            alt=""
+            className="brand-logo brand-logo--admin"
+            width={30}
+            height={17}
+          />
+          <span>Alquileres 4 Esquinas</span>
           <span className="admin-tag">Panel</span>
         </Link>
 

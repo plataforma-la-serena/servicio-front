@@ -36,7 +36,7 @@ function toApartment(item: ApiApartment): Apartment {
 
 async function fetchApartments(base: string): Promise<ApiApartment[]> {
   const response = await fetch(`${base}/apartments?active=true`, {
-    next: { revalidate: 300 },
+    cache: "no-store",
   });
 
   if (!response.ok) {
@@ -52,9 +52,13 @@ async function fetchApartments(base: string): Promise<ApiApartment[]> {
   return payload as ApiApartment[];
 }
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export async function getApartments(): Promise<CatalogResult> {
   if (!API_URL) {
-    return { apartments: sampleApartments, isSample: true };
+    return isProduction
+      ? { apartments: [], isSample: false }
+      : { apartments: sampleApartments, isSample: true };
   }
 
   try {
@@ -65,8 +69,10 @@ export async function getApartments(): Promise<CatalogResult> {
       isSample: false,
     };
   } catch {
-    // Fallback de desarrollo: permite diseñar sin api-central levantada.
-    return { apartments: sampleApartments, isSample: true };
+    // En producción no mostramos datos de ejemplo: el catálogo real manda.
+    return isProduction
+      ? { apartments: [], isSample: false }
+      : { apartments: sampleApartments, isSample: true };
   }
 }
 

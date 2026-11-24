@@ -3,10 +3,12 @@ import { ApartmentGrid } from "@/components/ApartmentGrid";
 import { PageIntro } from "@/components/PageIntro";
 import { getApartments } from "@/lib/catalog";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Departamentos",
   description:
-    "Departamentos amoblados en La Serena para la temporada de verano. Consultá disponibilidad por WhatsApp.",
+    "Alquileres 4 Esquinas: departamentos amoblados en La Serena para la temporada de verano. Consultá disponibilidad por WhatsApp.",
 };
 
 export default async function DepartamentosPage() {

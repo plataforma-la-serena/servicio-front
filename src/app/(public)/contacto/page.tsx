@@ -7,7 +7,7 @@ import { hasWhatsappNumber } from "@/lib/whatsapp";
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Consultas y reservas de departamentos en La Serena durante la temporada de verano.",
+    "Alquileres 4 Esquinas: consultas y reservas de departamentos en La Serena durante la temporada de verano.",
 };
 
 export default function ContactoPage() {

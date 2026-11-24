@@ -8,7 +8,14 @@ export function SiteFooter() {
         <div className="footer-grid">
           <div className="footer-brand">
             <p className="footer-brand-name">
-              <span>La Serena</span>
+              <img
+                src="/logo-alquileres-4-esquinas.svg"
+                alt=""
+                className="brand-logo brand-logo--footer"
+                width={52}
+                height={29}
+              />
+              <span>Alquileres 4 Esquinas</span>
             </p>
             <p className="footer-copy">
               Departamentos temporarios en La Serena para la temporada de
@@ -45,7 +52,7 @@ export function SiteFooter() {
         </div>
 
         <div className="footer-bottom">
-          <span>La Serena, Chile</span>
+          <span>Alquileres 4 Esquinas · La Serena, Chile</span>
           <span>Temporada {SEASON_LABEL}</span>
         </div>
       </div>

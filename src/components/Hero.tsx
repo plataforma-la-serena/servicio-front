@@ -20,8 +20,8 @@ export function Hero({ apartmentCount }: HeroProps) {
           <em>en La Serena.</em>
         </h1>
         <p className="hero-lede">
-          Departamentos amoblados para la temporada de verano. Consultas y
-          reservas por WhatsApp.
+          Alquileres 4 Esquinas: departamentos amoblados para la temporada de
+          verano. Consultas y reservas por WhatsApp.
         </p>
 
         <div className="hero-actions">
