@@ -12,8 +12,8 @@ export function SiteFooter() {
                 src="/logo-alquileres-4-esquinas.svg"
                 alt=""
                 className="brand-logo brand-logo--footer"
-                width={80}
-                height={45}
+                width={104}
+                height={58}
               />
               <span>Alquileres 4 Esquinas</span>
             </p>

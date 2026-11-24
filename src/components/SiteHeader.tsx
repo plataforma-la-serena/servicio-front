@@ -14,8 +14,8 @@ export function SiteHeader() {
             src="/logo-alquileres-4-esquinas.svg"
             alt=""
             className="brand-logo"
-            width={72}
-            height={40}
+            width={96}
+            height={54}
           />
           <span className="brand-copy">
             <span className="brand-name">Alquileres 4 Esquinas</span>
