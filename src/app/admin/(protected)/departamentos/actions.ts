@@ -8,12 +8,9 @@ import {
   deleteApartment,
   updateApartment,
   uploadImage,
-  type ApartmentInput,
 } from "@/lib/api/mutations";
 import { getSession } from "@/lib/api/session";
-
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png"];
+import { readApartmentInput, validateImageFile } from "./apartment-input";
 
 type UploadResult =
   | { ok: true; urls: string[] }
@@ -27,12 +24,9 @@ async function uploadImages(formData: FormData): Promise<UploadResult> {
   const urls: string[] = [];
 
   for (const file of files) {
-    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-      return { ok: false, error: "Las fotos deben ser JPG o PNG." };
-    }
-
-    if (file.size > MAX_IMAGE_BYTES) {
-      return { ok: false, error: "Cada foto debe pesar menos de 5 MB." };
+    const invalid = validateImageFile(file);
+    if (invalid) {
+      return { ok: false, error: invalid };
     }
 
     const data = Buffer.from(await file.arrayBuffer());
@@ -49,44 +43,6 @@ async function uploadImages(formData: FormData): Promise<UploadResult> {
   }
 
   return { ok: true, urls };
-}
-
-function splitList(raw: FormDataEntryValue | null): string[] {
-  return String(raw ?? "")
-    .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
-
-function readInput(formData: FormData): ApartmentInput | null {
-  const title = String(formData.get("title") ?? "").trim();
-  const description = String(formData.get("description") ?? "").trim();
-  const pricePerNight = Number(formData.get("pricePerNight"));
-  const capacity = Number(formData.get("capacity"));
-  const coverIndex = Number(formData.get("coverIndex") ?? 0);
-
-  if (
-    title.length < 2 ||
-    description.length < 10 ||
-    !Number.isInteger(pricePerNight) ||
-    pricePerNight < 0 ||
-    !Number.isInteger(capacity) ||
-    capacity < 1
-  ) {
-    return null;
-  }
-
-  return {
-    title,
-    description,
-    pricePerNight,
-    capacity,
-    features: splitList(formData.get("features")),
-    images: splitList(formData.get("images")),
-    coverIndex:
-      Number.isInteger(coverIndex) && coverIndex >= 0 ? coverIndex : 0,
-    isActive: formData.get("isActive") === "on",
-  };
 }
 
 function fail(error: string): ActionResult {
@@ -108,7 +64,7 @@ export async function createApartmentAction(
     redirect("/admin/login");
   }
 
-  const input = readInput(formData);
+  const input = readApartmentInput(formData);
   if (!input) {
     return fail("Revisá los campos: título, descripción, precio y capacidad.");
   }
@@ -139,7 +95,7 @@ export async function updateApartmentAction(
     redirect("/admin/login");
   }
 
-  const input = readInput(formData);
+  const input = readApartmentInput(formData);
   if (!input) {
     return fail("Revisá los campos: título, descripción, precio y capacidad.");
   }

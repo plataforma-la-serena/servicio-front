@@ -4,44 +4,19 @@ import {
   occupiedDates,
   seasonMonths,
   seasonWindow,
-  type AvailabilityRange,
 } from "@/lib/availability";
+import { fetchAvailabilityRanges } from "@/lib/availability-api";
+
 const WEEKDAYS = ["L", "M", "X", "J", "V", "S", "D"] as const;
 
 interface AvailabilityCalendarProps {
   apartmentId: string;
 }
 
-async function fetchRanges(id: string): Promise<AvailabilityRange[] | null> {
-  const base = process.env.API_CENTRAL_URL?.replace(/\/$/, "");
-  if (!base) {
-    return null;
-  }
-
-  const { from, to } = seasonWindow();
-
-  try {
-    const response = await fetch(
-      `${base}/apartments/${encodeURIComponent(id)}/availability` +
-        `?from=${from}&to=${to}`,
-      { next: { revalidate: 300 } },
-    );
-
-    if (!response.ok) {
-      return null;
-    }
-
-    const payload = (await response.json()) as { ranges?: AvailabilityRange[] };
-    return payload.ranges ?? [];
-  } catch {
-    return null;
-  }
-}
-
 export async function AvailabilityCalendar({
   apartmentId,
 }: AvailabilityCalendarProps) {
-  const ranges = await fetchRanges(apartmentId);
+  const ranges = await fetchAvailabilityRanges(apartmentId);
   const months = seasonMonths();
 
   if (ranges === null) {

@@ -16,21 +16,23 @@ export type CropUploadResult =
   | { ok: true; url: string; sourceUrl: string; cropData: Record<string, number> | null }
   | { ok: false; error: string };
 
+function asCropRecord(value: unknown): Record<string, number> | undefined {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return undefined;
+  }
+  return value as Record<string, number>;
+}
+
 function parseCropData(raw: FormDataEntryValue | null): Record<string, number> | undefined {
   if (typeof raw !== "string" || !raw) {
     return undefined;
   }
 
   try {
-    const parsed = JSON.parse(raw) as unknown;
-    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-      return parsed as Record<string, number>;
-    }
+    return asCropRecord(JSON.parse(raw));
   } catch {
     return undefined;
   }
-
-  return undefined;
 }
 
 export async function uploadCroppedImage(
