@@ -50,3 +50,16 @@ Si `api-central` no está disponible, el catálogo usa `src/data/sample-apartmen
 - `/departamentos/[id]` — ficha del departamento.
 - `/sitemap.xml` — sitemap generado desde el catálogo.
 - `/robots.txt` — reglas de indexación.
+
+## Calidad
+
+```bash
+npm run typecheck  # tipos
+npm test           # pruebas (Vitest)
+npm run coverage   # pruebas + coverage/coverage-summary.json
+npm run build      # build de producción
+npm audit --omit=dev
+```
+
+CI en `.github/workflows/ci.yml`: install → typecheck → test + coverage → build
+→ auditoría de dependencias.
